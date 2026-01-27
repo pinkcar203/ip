@@ -1,10 +1,8 @@
-package mickey;
-
 import java.util.Scanner;
 
 public class Mickey {
     public static void main(String[] args) {
-        String logo = "( o.o )\n"    // animal face
+        String logo = "( o.o )\n"  // animal face
                     + "  >^< ";      
         
         System.out.println("------------------------------------------");
@@ -14,10 +12,22 @@ public class Mickey {
         
         Scanner entry = new Scanner(System.in);
         String chatEntry = entry.nextLine();
-                
+        String[] taskList = new String[100];
+        int taskCount = 0;
+                    
         while (!chatEntry.equals("bye")) {
             System.out.println("------------------------------------------");
-            System.out.println("   " + chatEntry); //repeats it
+            if (chatEntry.equals("list") || chatEntry.equals("to-do")) {
+                for (int i = 0; i < taskCount; i++) {
+                    System.out.println(" " + (i+1) + ". " + taskList[i]);
+                }            
+                } else {
+                //add to list, increase counter and echo item
+                taskList[taskCount] = chatEntry;
+                taskCount++;
+                System.out.println(" added: " + chatEntry);
+            }
+            
             System.out.println("------------------------------------------");
             chatEntry = entry.nextLine();
         }
@@ -26,5 +36,6 @@ public class Mickey {
         System.out.println(" Bye. Hope to see you again soon! :D ");
         System.out.println("------------------------------------------");
         entry.close();
+        
     }
 }
