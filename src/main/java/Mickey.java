@@ -11,8 +11,10 @@ public class Mickey {
         System.out.println("------------------------------------------");
         
         Scanner entry = new Scanner(System.in);
-        String chatEntry = entry.nextLine();
+        String chatEntry = entry.nextLine().trim();
         String[] taskList = new String[100];
+        char[] taskType = new char[100];  
+        String[] taskDetails = new String[100];  
         int taskCount = 0;
         boolean[] isComplete = new boolean[100];
                     
@@ -23,7 +25,7 @@ public class Mickey {
             if (chatEntry.equals("list") || chatEntry.equals("to-do")) {
                 System.out.println("------------------------------------------");
                 System.out.println("Here are the tasks in your list:");
-                // show all tasks
+                // show all tasks 
                 for (int i = 0; i < taskCount; i++) {
                     String check;
                     if (isComplete[i]) {
@@ -31,7 +33,13 @@ public class Mickey {
                     } else {
                         check = "[ ]";
                     }
-                    System.out.println("" + (i+1) + "." + check + " " + taskList[i]);  
+                    String typeTag = "[" + taskType[i] + "]";
+                    String task = typeTag + check + " " + taskList[i];                  
+                    if (taskDetails[i] != null) {
+                        task += " " + taskDetails[i];
+                    }
+                    
+                    System.out.println((i+1) + "." + task);  
                 }
             } 
             //possible errors: if task number more than task count; negative task number
@@ -46,7 +54,11 @@ public class Mickey {
                     else {
                     isComplete[arrayTask] = true;
                     System.out.println("Niceeee! I've marked this task as done:");
-                    System.out.println(" [X] " + taskList[arrayTask]);
+                    if (taskDetails[arrayTask] != null) {
+                        System.out.println("[X] " + taskList[arrayTask] + " " + taskDetails[arrayTask]);
+                    } else {
+                        System.out.println(" [X] " + taskList[arrayTask]);
+                    }
                     }
                 } 
                 catch (NumberFormatException err) {
@@ -72,10 +84,54 @@ public class Mickey {
                 }
 
             }
-
+            else if (firstWord[0].equals("todo")) {
+                // todo: task description
+                String description = chatEntry.substring(5);
+                taskList[taskCount] = description;
+                taskType[taskCount] = 'T';
+                taskDetails[taskCount] = null;
+                isComplete[taskCount] = false;
+                taskCount++;
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("  [T][ ] " + description);
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            }
+            else if (firstWord[0].equals("deadline")) {
+                // cuts off at /by
+                int byIndex = chatEntry.indexOf("/by");
+                String description = chatEntry.substring(9, byIndex);
+                String by = chatEntry.substring(byIndex + 4);
+                taskList[taskCount] = description;
+                taskType[taskCount] = 'D';
+                taskDetails[taskCount] = "(by:" + by+ ")";
+                isComplete[taskCount] = false;
+                taskCount++;
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("  [D][ ] " + description + " (by: " + by + ")");
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            }
+            
+            else if (firstWord[0].equals("event")) {
+                int fromIndex = chatEntry.indexOf("/from");
+                int toIndex = chatEntry.indexOf("/to");
+                String description = chatEntry.substring(6, fromIndex);
+                String from = chatEntry.substring(fromIndex + 6, toIndex);
+                String to = chatEntry.substring(toIndex + 4);
+                taskList[taskCount] = description;
+                taskType[taskCount] = 'E';
+                taskDetails[taskCount] = "(from " + from + " to " + to + ")";
+                isComplete[taskCount] = false;
+                taskCount++;
+                System.out.println(" Got it. I've added this task:");
+                System.out.println("  [E][ ] " + description + " (from " + from + "to " + to + ")");
+                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            }
             else {
-                // add to list, increase counter and echo item
+                // todo echo
                 taskList[taskCount] = chatEntry;
+                taskType[taskCount] = 'T';
+                taskDetails[taskCount] = null;
+                isComplete[taskCount] = false;
                 taskCount++;
                 System.out.println(" added: " + chatEntry);
             }
