@@ -1,0 +1,6 @@
+todo book
+deadline meeting /by fri
+mark 1
+unmark 1
+list 
+bye
