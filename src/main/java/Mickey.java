@@ -14,15 +14,67 @@ public class Mickey {
         String chatEntry = entry.nextLine();
         String[] taskList = new String[100];
         int taskCount = 0;
+        boolean[] isComplete = new boolean[100];
                     
         while (!chatEntry.equals("bye")) {
+            String[] firstWord = chatEntry.trim().split("\\s+"); 
             System.out.println("------------------------------------------");
+            
             if (chatEntry.equals("list") || chatEntry.equals("to-do")) {
+                System.out.println("------------------------------------------");
+                System.out.println("Here are the tasks in your list:");
+                // show all tasks
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println(" " + (i+1) + ". " + taskList[i]);
-                }            
-                } else {
-                //add to list, increase counter and echo item
+                    String check;
+                    if (isComplete[i]) {
+                        check = "[X]";
+                    } else {
+                        check = "[ ]";
+                    }
+                    System.out.println("" + (i+1) + "." + check + " " + taskList[i]);  
+                }
+            } 
+            //possible errors: if task number more than task count; negative task number
+            else if (firstWord[0].equals("mark")){
+                try {
+                    String[] parts = chatEntry.trim().split("\\s+");
+                    int taskComplete = Integer.parseInt(parts[1]);
+                    int arrayTask = taskComplete - 1;
+                    if (arrayTask < 0 || arrayTask >= taskCount) {
+                        System.out.println("Please choose a task number within the list.");
+                    }
+                    else {
+                    isComplete[arrayTask] = true;
+                    System.out.println("Niceeee! I've marked this task as done:");
+                    System.out.println(" [X] " + taskList[arrayTask]);
+                    }
+                } 
+                catch (NumberFormatException err) {
+                    System.out.println("Oops, please use the task number for selection.");
+                }
+            } 
+            else if (firstWord[0].equals("unmark")){
+                try {
+                    String[] parts = chatEntry.trim().split("\\s+");
+                    int taskComplete = Integer.parseInt(parts[1]);
+                    int arrayTask = taskComplete - 1;
+                    if (arrayTask < 0 || arrayTask >= taskCount) {
+                        System.out.println("Please choose a task number within the list.");
+                    }
+                    else {
+                    isComplete[arrayTask] = false;
+                    System.out.println("Okie, I've marked this task as not done yet:");
+                    System.out.println(" [ ] " + taskList[arrayTask]);
+                    }
+                } 
+                catch (NumberFormatException err) {
+                    System.out.println("Oops, please use the task number for selection.");
+                }
+
+            }
+
+            else {
+                // add to list, increase counter and echo item
                 taskList[taskCount] = chatEntry;
                 taskCount++;
                 System.out.println(" added: " + chatEntry);
@@ -33,9 +85,9 @@ public class Mickey {
         }
         
         System.out.println("------------------------------------------");
-        System.out.println(" Bye. Hope to see you again soon! :D ");
+        System.out.println(" Chat says bye. Hope to see you again soon! :D ");
         System.out.println("------------------------------------------");
         entry.close();
-        
+
     }
 }
