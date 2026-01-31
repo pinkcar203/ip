@@ -19,6 +19,7 @@ public class Mickey {
         boolean[] isComplete = new boolean[100];
                     
         while (!chatEntry.equals("bye")) {
+
             String[] firstWord = chatEntry.trim().split("\\s+"); 
             System.out.println("------------------------------------------");
             
@@ -51,6 +52,7 @@ public class Mickey {
                     if (arrayTask < 0 || arrayTask >= taskCount) {
                         System.out.println("Please choose a task number within the list.");
                     }
+
                     else {
                     isComplete[arrayTask] = true;
                     System.out.println("Niceeee! I've marked this task as done:");
@@ -86,34 +88,57 @@ public class Mickey {
             }
             else if (firstWord[0].equals("todo")) {
                 // todo: task description
-                String description = chatEntry.substring(5);
-                taskList[taskCount] = description;
-                taskType[taskCount] = 'T';
-                taskDetails[taskCount] = null;
-                isComplete[taskCount] = false;
-                taskCount++;
-                System.out.println(" Got it. I've added this task:");
-                System.out.println("  [T][ ] " + description);
-                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                if (chatEntry.length() <= 4) {
+                    System.out.println("Please enter a description of your todo item");
+                } else {
+                    String description = chatEntry.substring(5);
+                    taskList[taskCount] = description;
+                    taskType[taskCount] = 'T';
+                    taskDetails[taskCount] = null;
+                    isComplete[taskCount] = false;
+                    taskCount++;
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("  [T][ ] " + description);
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                }
             }
             else if (firstWord[0].equals("deadline")) {
                 // cuts off at /by
                 int byIndex = chatEntry.indexOf("/by");
-                String description = chatEntry.substring(9, byIndex);
-                String by = chatEntry.substring(byIndex + 4);
-                taskList[taskCount] = description;
-                taskType[taskCount] = 'D';
-                taskDetails[taskCount] = "(by:" + by+ ")";
-                isComplete[taskCount] = false;
-                taskCount++;
-                System.out.println(" Got it. I've added this task:");
-                System.out.println("  [D][ ] " + description + " (by: " + by + ")");
-                System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                if (chatEntry.length() <= 8){
+                    System.out.println("Oops please specify the item and deadline");
+                }
+                else if (byIndex == -1) {
+                    System.out.println("Remember to enter the deadline dateee!");
+                }
+                else if (byIndex <= 10){
+                    System.out.println("Hmmm there seems to be no description..");
+                }
+                else {
+                    String description = chatEntry.substring(9, byIndex);
+                    String by = chatEntry.substring(byIndex + 4);
+                    taskList[taskCount] = description;
+                    taskType[taskCount] = 'D';
+                    taskDetails[taskCount] = "(by:" + by + ")";
+                    isComplete[taskCount] = false;
+                    taskCount++;
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("  [D][ ] " + description + " (by: " + by + ")");
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                }
             }
+
             
             else if (firstWord[0].equals("event")) {
                 int fromIndex = chatEntry.indexOf("/from");
                 int toIndex = chatEntry.indexOf("/to");
+                if (chatEntry.length() <= 5) {
+                    System.out.println("You havent entered any event details yet!");
+                }
+                else if (fromIndex == -1 || toIndex == -1){
+                    System.out.println("You havent entered any event dates yet...");
+                }
+                else {
                 String description = chatEntry.substring(6, fromIndex);
                 String from = chatEntry.substring(fromIndex + 6, toIndex);
                 String to = chatEntry.substring(toIndex + 4);
@@ -125,6 +150,7 @@ public class Mickey {
                 System.out.println(" Got it. I've added this task:");
                 System.out.println("  [E][ ] " + description + " (from " + from + "to " + to + ")");
                 System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                }
             }
             else {
                 // todo echo

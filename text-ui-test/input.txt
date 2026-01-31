@@ -3,4 +3,8 @@ deadline meeting /by fri
 mark 1
 unmark 1
 list 
+todo
+deadline
+event
+event test
 bye
