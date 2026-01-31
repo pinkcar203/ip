@@ -7,4 +7,5 @@ todo
 deadline
 event
 event test
+delete 1
 bye

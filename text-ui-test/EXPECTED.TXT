@@ -8,23 +8,26 @@
 ------------------------------------------
  Got it. I've added this task:
   [T][ ] book
- Now you have 1 tasks in the list.
+ Now you have 1 task in the list.
 ------------------------------------------
 ------------------------------------------
  Got it. I've added this task:
-  [D][ ] meeting  (by: fri)
+  [D][[ ]] meeting  (by fri)
  Now you have 2 tasks in the list.
 ------------------------------------------
 ------------------------------------------
 Niceeee! I've marked this task as done:
- [X] book
+ [T][X] book
 ------------------------------------------
 ------------------------------------------
 Okie, I've marked this task as not done yet:
- [ ] book
+ [T][ ] book
 ------------------------------------------
 ------------------------------------------
- added: list 
+------------------------------------------
+Here are the tasks in your list:
+1.[T][ ] book
+2.[D][[ ]] meeting  (by fri)
 ------------------------------------------
 ------------------------------------------
 Please enter a description of your todo item
@@ -37,6 +40,11 @@ You havent entered any event details yet!
 ------------------------------------------
 ------------------------------------------
 You havent entered any event dates yet...
+------------------------------------------
+------------------------------------------
+Okie, I've removed this task:
+ [T][ ] book
+ Now you have 1 task in the list.
 ------------------------------------------
 ------------------------------------------
  Chat says bye. Hope to see you again soon! :D 
