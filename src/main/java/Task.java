@@ -2,6 +2,7 @@ public abstract class Task {
     protected String description;
     protected boolean isComplete;
     public abstract String toString();
+    protected TaskTypes type;
 
     public Task(String description) {
         this.description = description;
@@ -11,6 +12,25 @@ public abstract class Task {
    public void markDone() {
         this.isComplete = true;
    }
+
+   public TaskTypes getTypeOfTask(){
+        return type;
+   }
+
+   public String getTypeLetter() {
+       switch (type) {
+        case TODO:
+            return "[T]";
+        case DEADLINE:
+            return "[D]";
+        case EVENT:
+            return "[E]";
+       }
+       return "?";
+   }
+
+
+       
 
    public void markUndone() {
         this.isComplete = false;

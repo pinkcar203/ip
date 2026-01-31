@@ -6,12 +6,13 @@ public class Event extends Task {
         super(description);
         this.dateFrom = from;
         this.dateTo = to;
+        this.type = TaskTypes.EVENT;
     }
     
     @Override
     public String toString() {
         
-        return "[E]" + getStatus() + " " + description + " (from " + dateFrom + " to " + dateTo + ")";
+        return getTypeLetter()+ " " + getStatus() + " " + description + " (from " + dateFrom + "to " + dateTo + ")";
     }
     
     public String getDateFrom() {

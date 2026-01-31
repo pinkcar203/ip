@@ -3,11 +3,12 @@ public class Deadline extends Task {
     public Deadline (String description, String dateBy) {
         super(description);
         this.dateBy = dateBy;
+        this.type = TaskTypes.DEADLINE;
     }
 
     @Override
     public String toString() {
-        return "[D][" + getStatus() + "] " + description + " (by " + dateBy + ")";
+        return getTypeLetter() + " " + getStatus() + " " + description + " (by " + dateBy + ")";
     }
 
     public String getDateBy() {
