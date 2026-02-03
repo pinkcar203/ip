@@ -1,3 +1,8 @@
+/**
+ * Main class for chatbot Mickey
+ * Handles user input and task management
+ */
+
 import java.util.ArrayList;
 
 public class Mickey {
@@ -5,6 +10,9 @@ public class Mickey {
     private UI ui;
     private int taskCount;
     
+    /**
+     * New mickey instance with empty list, UI and task count
+     */
     public Mickey() {
         this.tasks = new ArrayList<>();
         this.ui = new UI();
@@ -14,7 +22,8 @@ public class Mickey {
     public static void main(String[] args) {
         new Mickey().run();
     }
-    
+
+
     public void run() {
         ui.welcomeLogo();
         String userInput = ui.userInput();
@@ -49,6 +58,9 @@ public class Mickey {
         ui.close();
     }
     
+    /**
+     * Shows all tasks in the list
+     */
     private void handleListCommand() {
         if (taskCount == 0) {
             ui.showNoTask();
@@ -61,6 +73,10 @@ public class Mickey {
             }
         }
     }
+    /**
+     * Deletes a task from task list
+     * @param userInput the user input containing the task number to be deleted
+     */
     
     private void handleDeleteCommand(String userInput) {
         try {
@@ -79,6 +95,11 @@ public class Mickey {
             ui.showNumberFormatError();
         }
     }
+
+    /**
+     * Marks a task as done
+     * @param userInput containing the task number to be marked as done
+     */
     
     private void handleMarkCommand(String userInput) {
         try {
@@ -97,6 +118,10 @@ public class Mickey {
             ui.showNumberFormatError();
         }
     }
+    /**
+     * Marks a task as incomplete
+     * @param userInput contains the task number to be marked as incomplete
+     */
     
     private void handleUnmarkCommand(String userInput) {
         try {
@@ -115,7 +140,11 @@ public class Mickey {
             ui.showNumberFormatError();
         }
     }
-    
+
+    /**
+     * Adds a todo task to the task list
+     * @param userInput contains the description of the task
+     */
     private void handleTodoCommand(String userInput) {
         if (userInput.length() <= 4) {
             ui.showEmptyTodoError();
@@ -127,6 +156,10 @@ public class Mickey {
             ui.showTaskAdded(newTodo.toString(), taskCount);
         }
     }
+    /**
+     * Adds a deadline task
+     * @param userInput contains the description and deadline date of the task
+     */
     
     private void handleDeadlineCommand(String userInput) {
         int byIndex = Parser.getByIndex(userInput);
@@ -148,6 +181,10 @@ public class Mickey {
         }
     }
     
+    /**
+     * Adds an event task
+     * @param userInput contains the description and event date range of the task
+     */
     private void handleEventCommand(String userInput) {
         int fromIndex = Parser.getFromIndex(userInput);
         int toIndex = Parser.getToIndex(userInput);
@@ -167,6 +204,10 @@ public class Mickey {
             ui.showTaskAdded(newEvent.toString(), taskCount);
         }
     }
+    /**
+     * Adds as a Todo task default
+     * @param userInput contains the description of task
+     */
     
     private void handleEchoCommand(String userInput) {
         Todo echoTask = new Todo(userInput);

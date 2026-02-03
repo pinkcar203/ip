@@ -1,10 +1,23 @@
+/**
+ * Class for parsing user input and extracting information needed
+ */
 public class Parser {
     
+    /**
+     * Extracts the first word of input as the command
+     * @param chatEntry the user input
+     * @return the command
+     */
     
     public static String getCommand(String chatEntry) {
         String[] firstWord = chatEntry.trim().split("\\s+");
         return firstWord[0];
+
     }
+
+    /**
+     * Retreived the index in the input
+     */
     
     public static int getByIndex(String chatEntry) {
         int byIndex = chatEntry.indexOf("/by");
@@ -22,6 +35,11 @@ public class Parser {
         return toIndex;
     }
 
+    /**
+     * Extracts the task number from the input
+     * @param chatEntry the user input
+     * @return the task number
+     */
     public static int getCompletedTask(String chatEntry) {
         String[] parts = chatEntry.trim().split("\\s+");
         int completedTask = Integer.parseInt(parts[1]);
@@ -38,6 +56,11 @@ public class Parser {
         return description;
     }
     
+    /**`
+     * Extracts the description and deadline date from input
+     * @param chatEntry user input
+     * @return the description and deadline date
+     */  
     
     public static String[] getDeadline(String chatEntry) {
         int byIndex = chatEntry.indexOf("/by");
@@ -46,6 +69,11 @@ public class Parser {
         return new String[]{description, by};
     }
     
+    /**
+     * Extracts the description and event date range from the input
+     * @param chatEntry user input
+     * @return the description and  date range
+     */
     
     public static String[] getEvent(String chatEntry) {
         int fromIndex = chatEntry.indexOf("/from");

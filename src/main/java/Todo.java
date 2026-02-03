@@ -1,3 +1,7 @@
+/**
+ * Todo class for todo tasks
+ * Extends from Task class
+ */
 public class Todo extends Task {
     
     public Todo(String description) {

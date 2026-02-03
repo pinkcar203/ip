@@ -1,3 +1,6 @@
+/**
+ * Class that handles messages displayed to the user
+ */
 import java.util.Scanner;
 
 public class UI {

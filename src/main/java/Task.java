@@ -1,3 +1,7 @@
+/**
+ * Abstract class for tasks for todo, event and deadline tasks to extend from
+ 
+ */
 public abstract class Task {
     protected String description;
     protected boolean isComplete;

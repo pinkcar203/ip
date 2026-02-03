@@ -1,3 +1,7 @@
+/**
+ * Event class for event tasks
+ * Extends from task class
+ */
 public class Event extends Task {
     private String dateFrom; 
     private String dateTo;   
