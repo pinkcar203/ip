@@ -1,3 +1,4 @@
+package mickey;
 /**
  * Main class for chatbot Mickey
  * Handles user input and task management
@@ -9,18 +10,24 @@ public class Mickey {
     private ArrayList<Task> tasks;
     private UI ui;
     private int taskCount;
+    private FileSaver saver;
     
     /**
      * New mickey instance with empty list, UI and task count
      */
-    public Mickey() {
-        this.tasks = new ArrayList<>();
-        this.ui = new UI();
-        this.taskCount = 0;
+    public Mickey(String filePath) {
+    this.ui = new UI();
+    this.saver = new FileSaver(filePath);   
+    this.tasks = saver.loadTasks();         
+    this.taskCount = tasks.size();
     }
 
-    public static void main(String[] args) {
-        new Mickey().run();
+    public static void main(String[] args)  {
+        new Mickey("./data/mickey.txt").run();
+    }
+
+    private void saveTask() {
+        saver.saveTasks(tasks);
     }
 
 
@@ -89,6 +96,7 @@ public class Mickey {
                 Task selectedTask = tasks.get(taskIndex);
                 tasks.remove(taskIndex);
                 taskCount--;
+                saveTask();
                 ui.showDeleted(selectedTask.toString(), taskCount);
             }
         } catch (NumberFormatException e) {
@@ -111,6 +119,7 @@ public class Mickey {
             } else {
                 Task selectedTask = tasks.get(taskIndex);
                 selectedTask.markDone();
+                saveTask();
                 ui.showMarked();
                 System.out.println(" " + selectedTask.toString());
             }
@@ -133,6 +142,7 @@ public class Mickey {
             } else {
                 Task selectedTask = tasks.get(taskIndex);
                 selectedTask.markUndone();
+                saveTask();
                 ui.showUnmarked();
                 System.out.println(" " + selectedTask.toString());
             }
@@ -153,6 +163,7 @@ public class Mickey {
             Todo newTodo = new Todo(description);
             tasks.add(newTodo);
             taskCount++;
+            saveTask();
             ui.showTaskAdded(newTodo.toString(), taskCount);
         }
     }
@@ -177,6 +188,7 @@ public class Mickey {
             Deadline newDeadline = new Deadline(description, dateBy);
             tasks.add(newDeadline);
             taskCount++;
+            saveTask();
             ui.showTaskAdded(newDeadline.toString(), taskCount);
         }
     }
@@ -201,6 +213,7 @@ public class Mickey {
             Event newEvent = new Event(description, dateFrom, dateTo);
             tasks.add(newEvent);
             taskCount++;
+            saveTask();
             ui.showTaskAdded(newEvent.toString(), taskCount);
         }
     }
@@ -213,6 +226,7 @@ public class Mickey {
         Todo echoTask = new Todo(userInput);
         tasks.add(echoTask);
         taskCount++;
+        saveTask();
         ui.showTaskAdded(echoTask.toString(), taskCount);
     }
     

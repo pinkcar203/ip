@@ -1,3 +1,4 @@
+package mickey;
 /**
  * Abstract class for tasks for todo, event and deadline tasks to extend from
  
@@ -20,6 +21,9 @@ public abstract class Task {
    public TaskTypes getTypeOfTask(){
         return type;
    }
+   /**
+    * Gets task type letter
+    */
 
    public String getTypeLetter() {
        switch (type) {
@@ -34,12 +38,17 @@ public abstract class Task {
    }
 
 
-       
+    /**
+     * Marks task as incomplete
+     */
 
    public void markUndone() {
         this.isComplete = false;
    }
-   
+
+   /**
+    * Gets task status
+    */
    public String getStatus() {
         String check;
         if (isComplete) {
@@ -49,13 +58,19 @@ public abstract class Task {
         }
         return check;
    }
+   /**
+    * Gets task description
+    */
 
    public String getDescription(){
        return description;
    }
 
-   public boolean isComplete() {
+   /**
+    * Gets task completion boolean flag
+    */
+
+   public boolean getIsComplete() {
        return isComplete;
    }
 }
-   

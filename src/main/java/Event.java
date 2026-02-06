@@ -1,3 +1,4 @@
+package mickey;
 /**
  * Event class for event tasks
  * Extends from task class
@@ -12,16 +13,25 @@ public class Event extends Task {
         this.dateTo = to;
         this.type = TaskTypes.EVENT;
     }
-    
+    /**
+     * Returs event in string format
+     */
     @Override
     public String toString() {
         
         return getTypeLetter()+ " " + getStatus() + " " + description + " (from " + dateFrom + "to " + dateTo + ")";
     }
     
+    /**
+     * Returns event start date
+     */
     public String getDateFrom() {
         return dateFrom;
     }
+
+    /**
+     * Returns event end date
+     */
     
     public String getDateTo() {
         return dateTo;
