@@ -1,3 +1,4 @@
+package mickey;
 /**
  * Class for parsing user input and extracting information needed
  */
@@ -42,6 +43,10 @@ public class Parser {
      */
     public static int getCompletedTask(String chatEntry) {
         String[] parts = chatEntry.trim().split("\\s+");
+        //add error handling when just entering "mark"
+        if (parts.length < 2) {
+            throw new NumberFormatException("No task number provided");
+        }
         int completedTask = Integer.parseInt(parts[1]);
         return completedTask;
     }

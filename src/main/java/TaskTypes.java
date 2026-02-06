@@ -1,3 +1,4 @@
+package mickey;
 /**
  * Enum for different types of tasks
  */

@@ -1,3 +1,4 @@
+package mickey;
 /**
  * Todo class for todo tasks
  * Extends from Task class
@@ -9,6 +10,9 @@ public class Todo extends Task {
         this.type = TaskTypes.TODO;
     }
     
+    /**
+     * Returns todo in string 
+     */
     @Override
     public String toString() {
         return getTypeLetter() + " " + getStatus() + " " + description;
