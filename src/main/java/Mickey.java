@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Mickey {
-    private ArrayList<Task> tasks;
+    private TaskList tasks;
     private UI ui;
     private int taskCount;
     private FileSaver saver;
@@ -21,7 +21,7 @@ public class Mickey {
     public Mickey(String filePath) {
     this.ui = new UI();
     this.saver = new FileSaver(filePath);   
-    this.tasks = saver.loadTasks();         
+    this.tasks = new TaskList(saver.loadTasks());         
     this.taskCount = tasks.size();
     }
 
@@ -30,7 +30,7 @@ public class Mickey {
     }
 
     private void saveTask() {
-        saver.saveTasks(tasks);
+        saver.saveTasks(tasks.getAllTasks());
     }
 
 
@@ -80,7 +80,7 @@ public class Mickey {
         } else {
             ui.allTaskList();
             for (int i = 0; i < taskCount; i++) {
-                Task currentTask = tasks.get(i);
+                Task currentTask = tasks.getTask(i);
                 int displayIndex = i + 1;
                 ui.showTask(displayIndex, currentTask.toString());
             }
@@ -99,8 +99,7 @@ public class Mickey {
             if (taskIndex < 0 || taskIndex >= taskCount) {
                 ui.showInvalidTaskNumber();
             } else {
-                Task selectedTask = tasks.get(taskIndex);
-                tasks.remove(taskIndex);
+                Task selectedTask = tasks.deleteTask(taskIndex);
                 taskCount--;
                 saveTask();
                 ui.showDeleted(selectedTask.toString(), taskCount);
@@ -123,8 +122,8 @@ public class Mickey {
             if (taskIndex < 0 || taskIndex >= taskCount) {
                 ui.showInvalidTaskNumber();
             } else {
-                Task selectedTask = tasks.get(taskIndex);
-                selectedTask.markDone();
+                tasks.markTask(taskIndex);
+                Task selectedTask = tasks.getTask(taskIndex);
                 saveTask();
                 ui.showMarked();
                 System.out.println(" " + selectedTask.toString());
@@ -146,8 +145,8 @@ public class Mickey {
             if (taskIndex < 0 || taskIndex >= taskCount) {
                 ui.showInvalidTaskNumber();
             } else {
-                Task selectedTask = tasks.get(taskIndex);
-                selectedTask.markUndone();
+                tasks.unmarkTask(taskIndex);
+                Task selectedTask = tasks.getTask(taskIndex);
                 saveTask();
                 ui.showUnmarked();
                 System.out.println(" " + selectedTask.toString());
@@ -167,7 +166,7 @@ public class Mickey {
         } else {
             String description = Parser.getTodoDescription(userInput);
             Todo newTodo = new Todo(description);
-            tasks.add(newTodo);
+            tasks.addTask(newTodo);
             taskCount++;
             saveTask();
             ui.showTaskAdded(newTodo.toString(), taskCount);
@@ -181,7 +180,7 @@ public class Mickey {
         try{
             LocalDate date = Parser.getDateInFormat(userInput);
             ArrayList<Task> dueTasks = new ArrayList<>();
-            for (Task task : tasks) {
+            for (Task task : tasks.getAllTasks()) {
                 if (taskIsSameDate(task, date)) {
                     dueTasks.add(task);
                 }
@@ -233,7 +232,7 @@ public class Mickey {
                 String description = (String) deadlineDetails[0];
                 LocalDate dateBy = (LocalDate) deadlineDetails[1];
                 Deadline newDeadline = new Deadline(description, dateBy);
-                tasks.add(newDeadline);
+                tasks.addTask(newDeadline);
                 taskCount++;
                 saveTask();
                 ui.showTaskAdded(newDeadline.toString(), taskCount);
@@ -262,7 +261,7 @@ public class Mickey {
                 LocalDateTime dateFrom = (LocalDateTime) eventDetails[1];
                 LocalDateTime dateTo = (LocalDateTime) eventDetails[2];
                 Event newEvent = new Event(description, dateFrom, dateTo);
-                tasks.add(newEvent);
+                tasks.addTask(newEvent);
                 taskCount++;
                 saveTask();
                 ui.showTaskAdded(newEvent.toString(), taskCount);
@@ -278,7 +277,7 @@ public class Mickey {
     
     private void handleEchoCommand(String userInput) {
         Todo echoTask = new Todo(userInput);
-        tasks.add(echoTask);
+        tasks.addTask(echoTask);
         taskCount++;
         saveTask();
         ui.showTaskAdded(echoTask.toString(), taskCount);
