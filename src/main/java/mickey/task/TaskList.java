@@ -1,4 +1,4 @@
-package mickey;
+package mickey.task;
 
 import java.util.ArrayList;
 

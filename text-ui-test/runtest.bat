@@ -52,7 +52,7 @@ if exist ..\data\mickey.txt (
 
 echo.
 echo [3/4] Compiling source files...
-javac -cp ..\src\main\java -Xlint:none -d ..\bin ..\src\main\java\*.java
+javac -cp ..\src\main\java -Xlint:none -d ..\bin ..\src\main\java\mickey\Mickey.java ..\src\main\java\mickey\task\*.java ..\src\main\java\mickey\util\*.java
 IF ERRORLEVEL 1 (
     echo.
     echo =============== ERROR ===============

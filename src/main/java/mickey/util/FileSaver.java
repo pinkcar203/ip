@@ -1,7 +1,11 @@
-package mickey;
+package mickey.util;
 /**
  * FileSaver class for saving and loading tasks 
  */
+import mickey.task.Task;
+import mickey.task.Todo;
+import mickey.task.Deadline;
+import mickey.task.Event;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

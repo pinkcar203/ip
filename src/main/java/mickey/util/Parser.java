@@ -1,4 +1,8 @@
-package mickey;
+package mickey.util;
+
+import mickey.task.Todo;
+import mickey.task.Deadline;
+import mickey.task.Event;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;

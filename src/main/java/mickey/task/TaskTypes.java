@@ -1,4 +1,4 @@
-package mickey;
+package mickey.task;
 /**
  * Enum for different types of tasks
  */
