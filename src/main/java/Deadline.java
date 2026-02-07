@@ -1,11 +1,15 @@
 package mickey;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Deadline class for deadline tasks
  * Extends from Task class
  */
+
 public class Deadline extends Task {
-    private String dateBy;
-    public Deadline (String description, String dateBy) {
+    private LocalDate dateBy;
+    public Deadline (String description, LocalDate dateBy) {
         super(description);
         this.dateBy = dateBy;
         this.type = TaskTypes.DEADLINE;
@@ -16,13 +20,14 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return getTypeLetter() + " " + getStatus() + " " + description + " (by " + dateBy + ")";
+        String newDateBy = dateBy.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        return getTypeLetter() + " " + getStatus() + " " + description + " (by " + newDateBy + ")";
     }
 
     /**
      * Returns the deadline date
      */
-    public String getDateBy() {
+    public LocalDate getDateBy() {
         return dateBy;
     }
 }

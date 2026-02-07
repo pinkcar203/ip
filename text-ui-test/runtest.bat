@@ -41,6 +41,15 @@ if exist ACTUAL.TXT (
     echo Cleaned up previous test outputs
 )
 
+if exist data\mickey.txt (
+    del data\mickey.txt
+    echo Cleaned up previous data file
+)
+
+if exist ..\data\mickey.txt (
+    del ..\data\mickey.txt
+)
+
 echo.
 echo [3/4] Compiling source files...
 javac -cp ..\src\main\java -Xlint:none -d ..\bin ..\src\main\java\*.java
@@ -56,7 +65,7 @@ echo [√] Compilation successful
 echo.
 
 echo [4/4] Running tests...
-java -classpath ..\bin Mickey < input.txt > ACTUAL.TXT
+java -classpath ..\bin mickey.Mickey < input.txt > ACTUAL.TXT
 
 FC ACTUAL.TXT EXPECTED.TXT > nul
 if ERRORLEVEL 1 (

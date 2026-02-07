@@ -1,13 +1,18 @@
 package mickey;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
+
 /**
  * Event class for event tasks
  * Extends from task class
  */
 public class Event extends Task {
-    private String dateFrom; 
-    private String dateTo;   
+    private LocalDateTime dateFrom; 
+    private LocalDateTime dateTo;   
     
-    public Event(String description, String from, String to) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.dateFrom = from;
         this.dateTo = to;
@@ -18,14 +23,16 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
+        String newDateFrom = dateFrom.format(DateTimeFormatter.ofPattern("MMM dd yyyy h:mma"));
+        String newDateTo = dateTo.format(DateTimeFormatter.ofPattern("MMM dd yyyy h:mma"));
         
-        return getTypeLetter()+ " " + getStatus() + " " + description + " (from " + dateFrom + "to " + dateTo + ")";
+        return getTypeLetter()+ " " + getStatus() + " " + description + " (from " + newDateFrom + " to " + newDateTo + ")";
     }
     
     /**
      * Returns event start date
      */
-    public String getDateFrom() {
+    public LocalDateTime getDateFrom() {
         return dateFrom;
     }
 
@@ -33,7 +40,7 @@ public class Event extends Task {
      * Returns event end date
      */
     
-    public String getDateTo() {
+    public LocalDateTime getDateTo() {
         return dateTo;
     }
 }

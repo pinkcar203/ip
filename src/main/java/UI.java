@@ -3,6 +3,9 @@ package mickey;
  * Class that handles messages displayed to the user
  */
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 
 public class UI {
     private Scanner entry;
@@ -50,6 +53,33 @@ public class UI {
 
     public void nextLine() {
         System.out.println(line);
+    }
+    /**
+     * Error for invalid date format
+     */
+    public void showInvalidDate() {
+        System.out.println("Please enter a valid date in the format dd-MM-yyyy.");
+    }
+    /**
+     * Error for due command
+     */
+    public void showDueCommandError() {
+        System.out.println("Ensure you use the command 'due' followed by the date in the format dd-MM-yyyy.");
+    }
+
+    /**
+     * Show tasks due on date entered
+     */
+    public void showDueTasks(ArrayList<Task> dueTasks, LocalDate date) {
+        String formattedDate = date.format(DateTimeFormatter.ofPattern("MMM dd yyyy"));
+        System.out.println("Here are the tasks due on " + formattedDate + ":");
+        if (dueTasks.isEmpty()) {
+            System.out.println("No tasks are due on " + formattedDate + ".");
+        } else {
+            for (int i = 0; i < dueTasks.size(); i++) {
+                System.out.println((i + 1) + "." + dueTasks.get(i).toString());
+            }
+        }
     }
 
     /**

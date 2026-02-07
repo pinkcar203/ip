@@ -4,6 +4,9 @@ package mickey;
  * Handles user input and task management
  */
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Mickey {
@@ -53,7 +56,10 @@ public class Mickey {
                 handleEventCommand(userInput);
             } else if (command.equals("delete")) {
                 handleDeleteCommand(userInput);
-            } else {
+            } else if (command.equals("due")) {
+                handleDueCommand(userInput);
+            }
+            else {
                 handleEchoCommand(userInput);
             }
             
@@ -168,6 +174,46 @@ public class Mickey {
         }
     }
     /**
+     * Commans to show tasks due on a specific date
+     * @param userInput contains the date to show tasks due
+     */
+    private void handleDueCommand(String userInput) {
+        try{
+            LocalDate date = Parser.getDateInFormat(userInput);
+            ArrayList<Task> dueTasks = new ArrayList<>();
+            for (Task task : tasks) {
+                if (taskIsSameDate(task, date)) {
+                    dueTasks.add(task);
+                }
+            }
+            ui.showDueTasks(dueTasks, date);
+        } catch (DateTimeParseException e) {
+            ui.showInvalidDate();
+        } 
+    }
+
+    /**
+     * Checks if a task is due on a specific date
+     * @param task the task
+     * @param date the date to check
+     * @return true if the task is due on the date and false if not due
+     *
+     */
+
+    private boolean taskIsSameDate(Task task, LocalDate date) {
+        if (task instanceof Deadline) {
+            Deadline deadline = (Deadline) task;
+            return deadline.getDateBy().equals(date);
+        } else if (task instanceof Event) {
+            Event event = (Event) task;
+            LocalDate eventDate = event.getDateFrom().toLocalDate();
+            return eventDate.equals(date);
+        }
+        return false;
+    }
+
+
+    /**
      * Adds a deadline task
      * @param userInput contains the description and deadline date of the task
      */
@@ -182,14 +228,18 @@ public class Mickey {
         } else if (byIndex <= 10) {
             ui.showDeadlineNoDescriptionError();
         } else {
-            String[] deadlineDetails = Parser.getDeadline(userInput);
-            String description = deadlineDetails[0];
-            String dateBy = deadlineDetails[1];
-            Deadline newDeadline = new Deadline(description, dateBy);
-            tasks.add(newDeadline);
-            taskCount++;
-            saveTask();
-            ui.showTaskAdded(newDeadline.toString(), taskCount);
+            try {
+                Object[] deadlineDetails = Parser.getDeadline(userInput);
+                String description = (String) deadlineDetails[0];
+                LocalDate dateBy = (LocalDate) deadlineDetails[1];
+                Deadline newDeadline = new Deadline(description, dateBy);
+                tasks.add(newDeadline);
+                taskCount++;
+                saveTask();
+                ui.showTaskAdded(newDeadline.toString(), taskCount);
+            } catch (DateTimeParseException e) {
+                ui.showInvalidDate();
+            }
         }
     }
     
@@ -206,15 +256,19 @@ public class Mickey {
         } else if (fromIndex == -1 || toIndex == -1) {
             ui.showEventMissingDatesError();
         } else {
-            String[] eventDetails = Parser.getEvent(userInput);
-            String description = eventDetails[0];
-            String dateFrom = eventDetails[1];
-            String dateTo = eventDetails[2];
-            Event newEvent = new Event(description, dateFrom, dateTo);
-            tasks.add(newEvent);
-            taskCount++;
-            saveTask();
-            ui.showTaskAdded(newEvent.toString(), taskCount);
+            try {
+                Object[] eventDetails = Parser.getEvent(userInput);
+                String description = (String) eventDetails[0];
+                LocalDateTime dateFrom = (LocalDateTime) eventDetails[1];
+                LocalDateTime dateTo = (LocalDateTime) eventDetails[2];
+                Event newEvent = new Event(description, dateFrom, dateTo);
+                tasks.add(newEvent);
+                taskCount++;
+                saveTask();
+                ui.showTaskAdded(newEvent.toString(), taskCount);
+            } catch (DateTimeParseException e) {
+                ui.showInvalidDate();
+            }
         }
     }
     /**
