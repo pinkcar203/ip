@@ -1,0 +1,92 @@
+package mickey;
+
+import java.util.ArrayList;
+
+/**
+ * Class for managing the list of all tasks
+ * 
+ */
+public class TaskList {
+    private ArrayList<Task> tasks;
+
+    /**
+     * Creates empty task list
+     */
+    public TaskList() {
+        this.tasks = new ArrayList<>();
+    }
+
+    /**
+     * Creates list with existing tasks
+     * @param tasks the list of tasks to initialize with
+     */
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    /**
+     * Adds a task to the list
+     * @param task the task to add
+     */
+    public void addTask(Task task) {
+        tasks.add(task);
+    }
+
+    /**
+     * Deletes task from the list
+     * @param index the index of the task to delete (0-based)
+     * @return the deleted task
+     */
+    public Task deleteTask(int index) {
+        return tasks.remove(index);
+    }
+
+    /**
+     * Gets a task from the list
+     * @param index the index of the task (0-based)
+     * @return the task at the specified index
+     */
+    public Task getTask(int index) {
+        return tasks.get(index);
+    }
+
+    /**
+     * Marks a task as done
+     * @param index the index of the task to mark (0-based)
+     */
+    public void markTask(int index) {
+        tasks.get(index).markDone();
+    }
+
+    /**
+     * Marks a task as not done
+     * @param index the index of the task to unmark (0-based)
+     */
+    public void unmarkTask(int index) {
+        tasks.get(index).markUndone();
+    }
+
+    /**
+     * Gets the number of tasks in the list
+     * @return the size of the task list
+     */
+    public int size() {
+        return tasks.size();
+    }
+
+    /**
+     * Gets all tasks in the list
+     * @return the ArrayList of all tasks
+     */
+    public ArrayList<Task> getAllTasks() {
+        return tasks;
+    }
+
+    /**
+     * Checks if the task list is empty
+     * @return true if empty, false otherwise
+     */
+    public boolean isEmpty() {
+        return tasks.isEmpty();
+    }
+}
