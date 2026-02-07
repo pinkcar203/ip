@@ -1,7 +1,8 @@
-package mickey;
+package mickey.util;
 /**
  * Class that handles messages displayed to the user
  */
+import mickey.task.Task;
 import java.util.Scanner;
 import java.time.LocalDate;
 import java.util.ArrayList;

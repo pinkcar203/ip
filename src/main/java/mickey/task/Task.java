@@ -1,4 +1,4 @@
-package mickey;
+package mickey.task;
 /**
  * Abstract class for tasks for todo, event and deadline tasks to extend from
  

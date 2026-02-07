@@ -1,4 +1,4 @@
-package mickey;
+package mickey.task;
 /**
  * Todo class for todo tasks
  * Extends from Task class

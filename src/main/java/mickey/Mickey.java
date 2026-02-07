@@ -4,6 +4,14 @@ package mickey;
  * Handles user input and task management
  */
 
+import mickey.task.Task;
+import mickey.task.Todo;
+import mickey.task.Deadline;
+import mickey.task.Event;
+import mickey.task.TaskList;
+import mickey.util.UI;
+import mickey.util.Parser;
+import mickey.util.FileSaver;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
