@@ -1,8 +1,13 @@
 package mickey;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.time.format.DateTimeFormatter;
 /**
  * Class for parsing user input and extracting information needed
  */
 public class Parser {
+    private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     
     /**
      * Extracts the first word of input as the command
@@ -43,7 +48,7 @@ public class Parser {
      */
     public static int getCompletedTask(String chatEntry) {
         String[] parts = chatEntry.trim().split("\\s+");
-        //add error handling when just entering "mark"
+        //add error handling when just entering "mark"/ "unmark"
         if (parts.length < 2) {
             throw new NumberFormatException("No task number provided");
         }
@@ -52,6 +57,10 @@ public class Parser {
     }
     public static int getDeletedTask(String chatEntry){
         String[] parts = chatEntry.trim().split("\\s+");
+        //add same error handling as above
+        if (parts.length < 2) {
+            throw new NumberFormatException("No task number provided");
+        }
         int deletedTask = Integer.parseInt(parts[1]);
         return deletedTask;
     }
@@ -61,17 +70,18 @@ public class Parser {
         return description;
     }
     
-    /**`
+    /**
      * Extracts the description and deadline date from input
      * @param chatEntry user input
      * @return the description and deadline date
      */  
     
-    public static String[] getDeadline(String chatEntry) {
+    public static Object[] getDeadline(String chatEntry) {
         int byIndex = chatEntry.indexOf("/by");
-        String description = chatEntry.substring(9, byIndex);
-        String by = chatEntry.substring(byIndex + 4);
-        return new String[]{description, by};
+        String description = chatEntry.substring(9, byIndex).trim();
+        String dateBy = chatEntry.substring(byIndex + 4).trim();
+        LocalDate date = LocalDate.parse(dateBy, DATE_FORMAT);
+        return new Object[]{description, date};
     }
     
     /**
@@ -80,15 +90,28 @@ public class Parser {
      * @return the description and  date range
      */
     
-    public static String[] getEvent(String chatEntry) {
-        int fromIndex = chatEntry.indexOf("/from");
+    public static Object[] getEvent(String chatEntry) {
+        int fromIndex = chatEntry.indexOf("/from"); 
         int toIndex = chatEntry.indexOf("/to");
-        String description = chatEntry.substring(6, fromIndex);
-        String dateFrom = chatEntry.substring(fromIndex + 6, toIndex);
-        String dateTo = chatEntry.substring(toIndex + 4);
-        return new String[]{description, dateFrom, dateTo};
+        String description = chatEntry.substring(6, fromIndex).trim();
+        String fromDate = chatEntry.substring(fromIndex + 6, toIndex).trim();
+        String toDate = chatEntry.substring(toIndex + 4).trim();
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HHmm");
+        LocalDateTime dateFrom = LocalDateTime.parse(fromDate, dateFormat);
+        LocalDateTime dateTo = LocalDateTime.parse(toDate, dateFormat);
+        return new Object[]{description, dateFrom, dateTo};
     }
-    
-    
+
+    /**
+     * Extract date from command
+     * @param chatEntry user input
+     * @return LocalDate object in format needed
+     * @throws DateTimeParseException if date is not in correct format
+     */
+    public static LocalDate getDateInFormat(String chatEntry) {
+        String dateString = chatEntry.substring(4).trim();
+        return LocalDate.parse(dateString, DATE_FORMAT);
+    }
+
     
 }

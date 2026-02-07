@@ -8,6 +8,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class FileSaver {
     private static final String SEPARATOR = " | ";
@@ -123,10 +125,10 @@ public class FileSaver {
     private String getAdditionalTaskDetails(Task task) {
         if (task instanceof Deadline) {
             Deadline deadline = (Deadline) task;
-            return SEPARATOR + deadline.getDateBy();
+            return SEPARATOR + deadline.getDateBy().toString();
         } else if (task instanceof Event) {
             Event event = (Event) task;
-            return SEPARATOR + event.getDateFrom() + SEPARATOR + event.getDateTo();
+            return SEPARATOR + event.getDateFrom().toString() + SEPARATOR + event.getDateTo().toString();
         }
         return "";
     }
@@ -172,14 +174,17 @@ public class FileSaver {
         case "D":
             if (components.length > 3) {
                 String deadlineBy = components[3].trim();
-                return new Deadline(description, deadlineBy);
+                LocalDate deadlineDate = LocalDate.parse(deadlineBy);
+                return new Deadline(description, deadlineDate);
             }
             break;
         case "E":
             if (components.length > 4) {
                 String eventFrom = components[3].trim();
                 String eventTo = components[4].trim();
-                return new Event(description, eventFrom, eventTo);
+                LocalDateTime eventFromDate = LocalDateTime.parse(eventFrom);
+                LocalDateTime eventToDate = LocalDateTime.parse(eventTo);
+                return new Event(description, eventFromDate, eventToDate);
             }
             break;
         }
