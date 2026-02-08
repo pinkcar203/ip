@@ -27,6 +27,8 @@ public class Parser {
 
     /**
      * Retreived the index in the input
+     * @param chatEntry the user input
+     * @return the index of /by in the input
      */
     
     public static int getByIndex(String chatEntry) {
@@ -34,11 +36,22 @@ public class Parser {
         return byIndex;
     }
     
+    /**
+     * Retreived the index in the input
+     * @param chatEntry the user input
+     * @return the index /from in the input
+     */
     
     public static int getFromIndex(String chatEntry) {
         int fromIndex = chatEntry.indexOf("/from");
         return fromIndex;
     }
+
+    /**
+     * Retreived the index in the input
+     * @param chatEntry the user input
+     * @return the index of /to in the input
+     */
     
     public static int getToIndex(String chatEntry) {
         int toIndex = chatEntry.indexOf("/to");
@@ -59,6 +72,13 @@ public class Parser {
         int completedTask = Integer.parseInt(parts[1]);
         return completedTask;
     }
+
+
+    /**
+     * Retreived the index in the input
+     * @param chatEntry user input
+     * @return the task number
+     */
     public static int getDeletedTask(String chatEntry){
         String[] parts = chatEntry.trim().split("\\s+");
         //add same error handling as above
@@ -68,10 +88,27 @@ public class Parser {
         int deletedTask = Integer.parseInt(parts[1]);
         return deletedTask;
     }
+
+    /**
+     * Retreived the index in the input
+     * @param chatEntry user input
+     * @return the description of the todo task
+     */
    
     public static String getTodoDescription(String chatEntry) {
         String description = chatEntry.substring(5);
         return description;
+    }
+
+    /**
+     * Retreived the keyword
+     * @param chatEntry user input
+     * @return the keyword 
+     */
+
+
+    public static String getKeywordToSearch (String chatEntry) {
+        return chatEntry.substring(5).trim();
     }
     
     /**

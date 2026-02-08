@@ -67,6 +67,9 @@ public class Mickey {
             } else if (command.equals("due")) {
                 handleDueCommand(userInput);
             }
+            else if (command.equals("find")) {
+                handleFindCommand(userInput);
+            }
             else {
                 handleEchoCommand(userInput);
             }
@@ -94,6 +97,29 @@ public class Mickey {
             }
         }
     }
+
+    /**
+     * Handles the find command
+     * @param userInput the user input containing the keyword to search 
+     * @return the matching tasks
+     */
+
+    private void handleFindCommand(String userInput) {
+        if (userInput.length() <= 4) {
+            System.out.println("Please enter the keyword to search by");
+            return;
+        }
+        String keyword = Parser.getKeywordToSearch(userInput);
+        ArrayList<Task> matchResults = new ArrayList<>();
+
+        for (Task task : tasks.getAllTasks()) {
+            if (task.getDescription().contains(keyword)) {
+                matchResults.add(task);
+            }
+        }
+        ui.showKeywordResults(matchResults);
+    }
+
     /**
      * Deletes a task from task list
      * @param userInput the user input containing the task number to be deleted
