@@ -67,6 +67,23 @@ public class UI {
     public void showDueCommandError() {
         System.out.println("Ensure you use the command 'due' followed by the date in the format dd-MM-yyyy.");
     }
+    
+    /**
+     * Displays the matching tasks
+     * @param matchResults the matching tasks
+     * @return the matching tasks
+     */
+
+    public void showKeywordResults (ArrayList<Task> matchResults) {
+        System.out.println("Here are the matching tasks:");
+        if (matchResults.isEmpty()) {
+            System.out.println("No tasks match the keyword.");
+        } else {
+            for (int i = 0; i < matchResults.size(); i++) {
+                System.out.println((i + 1) + "." + matchResults.get(i).toString()); 
+            }
+        }
+    }
 
     /**
      * Show tasks due on date entered
@@ -88,7 +105,7 @@ public class UI {
     */
 
     public void allTaskList () {
-        System.out.println(line);
+        
         System.out.println("Here are the tasks in your list:");
     }
 

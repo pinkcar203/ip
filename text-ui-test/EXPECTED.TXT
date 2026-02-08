@@ -44,7 +44,6 @@ You are done with all your tasks! Good job!
  Now you have 7 tasks in the list.
 ------------------------------------------
 ------------------------------------------
-------------------------------------------
 Here are the tasks in your list:
 1.[T] [ ] read book
 2.[T] [ ] return book
@@ -63,7 +62,6 @@ Niceeee! I've marked this task as done:
  [T] [X] return book
 ------------------------------------------
 ------------------------------------------
-------------------------------------------
 Here are the tasks in your list:
 1.[T] [X] read book
 2.[T] [X] return book
@@ -76,7 +74,6 @@ Here are the tasks in your list:
 ------------------------------------------
 Okie, I've marked this task as not done yet:
  [T] [ ] read book
-------------------------------------------
 ------------------------------------------
 ------------------------------------------
 Here are the tasks in your list:
@@ -94,7 +91,6 @@ Okie, I've removed this task:
  Now you have 6 tasks in the list.
 ------------------------------------------
 ------------------------------------------
-------------------------------------------
 Here are the tasks in your list:
 1.[T] [ ] read book
 2.[T] [X] return book
@@ -102,6 +98,9 @@ Here are the tasks in your list:
 4.[D] [ ] project report (by Dec 31 2024)
 5.[E] [ ] project meeting (from Aug 20 2024 2:00pm to Aug 20 2024 4:00pm)
 6.[E] [ ] team lunch (from Dec 25 2024 12:00pm to Dec 25 2024 2:00pm)
+------------------------------------------
+------------------------------------------
+Remember to enter the deadline dateee!
 ------------------------------------------
 ------------------------------------------
 Here are the tasks due on Jun 15 2024:
@@ -122,7 +121,6 @@ Here are the tasks due on Dec 25 2024:
  Now you have 8 tasks in the list.
 ------------------------------------------
 ------------------------------------------
-------------------------------------------
 Here are the tasks in your list:
 1.[T] [ ] read book
 2.[T] [X] return book
@@ -134,13 +132,22 @@ Here are the tasks in your list:
 8.[E] [ ] birthday party (from Feb 15 2025 10:00am to Feb 15 2025 1:00pm)
 ------------------------------------------
 ------------------------------------------
+Here are the matching tasks:
+1.[T] [ ] read book
+2.[T] [X] return book
+3.[D] [ ] return book (by Jun 15 2024)
+------------------------------------------
+------------------------------------------
+Here are the matching tasks:
+1.[E] [ ] project meeting (from Aug 20 2024 2:00pm to Aug 20 2024 4:00pm)
+------------------------------------------
+------------------------------------------
 Niceeee! I've marked this task as done:
  [D] [X] project report (by Dec 31 2024)
 ------------------------------------------
 ------------------------------------------
 Niceeee! I've marked this task as done:
  [E] [X] project meeting (from Aug 20 2024 2:00pm to Aug 20 2024 4:00pm)
-------------------------------------------
 ------------------------------------------
 ------------------------------------------
 Here are the tasks in your list:
