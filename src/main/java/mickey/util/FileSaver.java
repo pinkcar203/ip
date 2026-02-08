@@ -1,7 +1,6 @@
 package mickey.util;
-/**
- * FileSaver class for saving and loading tasks 
- */
+
+
 import mickey.task.Task;
 import mickey.task.Todo;
 import mickey.task.Deadline;
@@ -14,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+/**
+ * FileSaver class for saving and loading tasks 
+ */
 
 public class FileSaver {
     private static final String SEPARATOR = " | ";
