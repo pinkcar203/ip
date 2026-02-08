@@ -82,13 +82,10 @@ public class Mickey {
             } else if (command.equals("cheer")) {
                 handleCheerCommand();
             }
-<<<<<<< HEAD
             else if (command.equals("find")) {
                 handleFindCommand(userInput);
             }
-=======
 
->>>>>>> branch-A-Cheer
             else {
                 handleEchoCommand(userInput);
             }
