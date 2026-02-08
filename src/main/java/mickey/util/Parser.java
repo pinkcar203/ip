@@ -27,6 +27,8 @@ public class Parser {
 
     /**
      * Retreived the index in the input
+     * @param chatEntry the user input
+     * @return the index of /by in the input
      */
     
     public static int getByIndex(String chatEntry) {
@@ -34,11 +36,22 @@ public class Parser {
         return byIndex;
     }
     
+    /**
+     * Retreived the index in the input
+     * @param chatEntry the user input
+     * @return the index /from in the input
+     */
     
     public static int getFromIndex(String chatEntry) {
         int fromIndex = chatEntry.indexOf("/from");
         return fromIndex;
     }
+
+    /**
+     * Retreived the index in the input
+     * @param chatEntry the user input
+     * @return the index of /to in the input
+     */
     
     public static int getToIndex(String chatEntry) {
         int toIndex = chatEntry.indexOf("/to");
@@ -59,6 +72,13 @@ public class Parser {
         int completedTask = Integer.parseInt(parts[1]);
         return completedTask;
     }
+
+
+    /**
+     * Retreived the index in the input
+     * @param chatEntry the user input
+     * @return the task number
+     */
     public static int getDeletedTask(String chatEntry){
         String[] parts = chatEntry.trim().split("\\s+");
         //add same error handling as above
