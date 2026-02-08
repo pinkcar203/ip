@@ -1,8 +1,5 @@
 package mickey;
-/**
- * Main class for chatbot Mickey
- * Handles user input and task management
- */
+
 
 import mickey.task.Task;
 import mickey.task.Todo;
@@ -16,6 +13,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+/**
+ * Main class for chatbot Mickey
+ * Handles user input and task management
+ */
 
 public class Mickey {
     private TaskList tasks;
