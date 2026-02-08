@@ -16,12 +16,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Mickey {
     private TaskList tasks;
     private UI ui;
     private int taskCount;
     private FileSaver saver;
+    private ArrayList<String> quotes;
     
     /**
      * New mickey instance with empty list, UI and task count
@@ -31,6 +33,7 @@ public class Mickey {
     this.saver = new FileSaver(filePath);   
     this.tasks = new TaskList(saver.loadTasks());         
     this.taskCount = tasks.size();
+    this.quotes = saver.loadQuotes();
     }
 
     public static void main(String[] args)  {
@@ -66,7 +69,10 @@ public class Mickey {
                 handleDeleteCommand(userInput);
             } else if (command.equals("due")) {
                 handleDueCommand(userInput);
+            } else if (command.equals("cheer")) {
+                handleCheerCommand();
             }
+
             else {
                 handleEchoCommand(userInput);
             }
@@ -115,6 +121,22 @@ public class Mickey {
         } catch (NumberFormatException e) {
             ui.showNumberFormatError();
         }
+    }
+
+    /**
+     * Handles the cheer command
+     * @return the random quote
+     */
+
+    private void handleCheerCommand() {
+        if (quotes.isEmpty()) {
+            System.out.println("Keep goingggggg!");
+            return;
+        }
+        Random random = new Random();
+        int randomIndex = random.nextInt(quotes.size());
+        String randomQuote = quotes.get(randomIndex);
+        System.out.println(randomQuote);
     }
 
     /**
