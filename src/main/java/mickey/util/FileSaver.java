@@ -18,6 +18,10 @@ import java.time.LocalDateTime;
 public class FileSaver {
     private static final String SEPARATOR = " | ";
     private Path filePath;
+
+    /**
+     * Constructor for FileSaver
+     */
     
     public FileSaver(String filePathString) {
         this.filePath = Paths.get(filePathString);
@@ -110,6 +114,8 @@ public class FileSaver {
     }
     /**
      * Gets task type character
+     * @param task the task to get the type of
+     * @return the task type character
      */
     
     private String getTaskTypeCode(Task task) {
@@ -124,6 +130,8 @@ public class FileSaver {
     }
     /**
      * Gets additional details
+     * @param task the task to get the additional details of
+     * @return the additional details
      */
     
     private String getAdditionalTaskDetails(Task task) {
@@ -138,6 +146,8 @@ public class FileSaver {
     }
     /**
      * Parses task from line
+     * @param line the line to parse the task 
+     * @return the task
      */
     
     private Task parseTaskFromLine(String line) {

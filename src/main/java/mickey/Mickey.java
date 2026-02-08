@@ -33,6 +33,10 @@ public class Mickey {
     this.taskCount = tasks.size();
     }
 
+    /**
+     * Main method for chatbot
+     */
+
     public static void main(String[] args)  {
         new Mickey("./data/mickey.txt").run();
     }
@@ -40,6 +44,10 @@ public class Mickey {
     private void saveTask() {
         saver.saveTasks(tasks.getAllTasks());
     }
+
+    /**
+     * To run the chatbot
+     */
 
 
     public void run() {

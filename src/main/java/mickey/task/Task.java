@@ -9,14 +9,26 @@ public abstract class Task {
     public abstract String toString();
     protected TaskTypes type;
 
+    /**
+     * Constructor for task
+     */
+
     public Task(String description) {
         this.description = description;
         this.isComplete = false;
     }
 
+    /**
+     * Marks task as complete
+     */
+
    public void markDone() {
         this.isComplete = true;
    }
+
+   /**
+    * Get task type
+    */
 
    public TaskTypes getTypeOfTask(){
         return type;

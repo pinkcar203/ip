@@ -10,7 +10,11 @@ import java.time.LocalDateTime;
  */
 public class Event extends Task {
     private LocalDateTime dateFrom; 
-    private LocalDateTime dateTo;   
+    private LocalDateTime dateTo;  
+
+    /**
+     * Constructor for event
+     */ 
     
     public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
