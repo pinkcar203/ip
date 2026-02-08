@@ -83,6 +83,25 @@ public class FileSaver {
         
         return tasks;
     }
+
+    public ArrayList<String> loadQuotes() {
+        Path quote = Paths.get("./data/cheer.txt");
+        ArrayList<String> quotes = new ArrayList<>();
+        if (!Files.exists(quote)) {
+            //return default quotes
+            quotes.add("Keep going buddy");
+            return quotes;
+        }
+        try {
+            List<String> lines = Files.readAllLines(quote);
+            for (String line : lines) {
+                quotes.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading quotes from file: " + e.getMessage());
+        }
+        return quotes;
+    }
     
     /**
      * Save tasks to file

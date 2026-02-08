@@ -134,6 +134,17 @@ public class UI {
     }
 
     /**
+     * Displays the cheer quote
+     * @param quote the quote to display
+     * @return the quote to display
+     */
+
+
+    public void showCheer(String quote) {
+        System.out.println(" " + quote);
+    }
+
+    /**
      * Displays deleted task message
      */
 

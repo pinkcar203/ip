@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Main class for chatbot Mickey
@@ -24,6 +25,7 @@ public class Mickey {
     private UI ui;
     private int taskCount;
     private FileSaver saver;
+    private ArrayList<String> quotes;
     
     /**
      * New mickey instance with empty list, UI and task count
@@ -33,6 +35,7 @@ public class Mickey {
     this.saver = new FileSaver(filePath);   
     this.tasks = new TaskList(saver.loadTasks());         
     this.taskCount = tasks.size();
+    this.quotes = saver.loadQuotes();
     }
 
     /**
@@ -76,10 +79,16 @@ public class Mickey {
                 handleDeleteCommand(userInput);
             } else if (command.equals("due")) {
                 handleDueCommand(userInput);
+            } else if (command.equals("cheer")) {
+                handleCheerCommand();
             }
+<<<<<<< HEAD
             else if (command.equals("find")) {
                 handleFindCommand(userInput);
             }
+=======
+
+>>>>>>> branch-A-Cheer
             else {
                 handleEchoCommand(userInput);
             }
@@ -151,6 +160,22 @@ public class Mickey {
         } catch (NumberFormatException e) {
             ui.showNumberFormatError();
         }
+    }
+
+    /**
+     * Handles the cheer command
+     * @return the random quote
+     */
+
+    private void handleCheerCommand() {
+        if (quotes.isEmpty()) {
+            System.out.println("Keep goingggggg!");
+            return;
+        }
+        Random random = new Random();
+        int randomIndex = random.nextInt(quotes.size());
+        String randomQuote = quotes.get(randomIndex);
+        System.out.println(randomQuote);
     }
 
     /**
