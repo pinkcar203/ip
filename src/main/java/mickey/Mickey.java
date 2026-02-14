@@ -1,48 +1,46 @@
 package mickey;
 
-
-import mickey.task.Task;
-import mickey.task.Todo;
-import mickey.task.Deadline;
-import mickey.task.Event;
-import mickey.task.TaskList;
-import mickey.util.UI;
-import mickey.util.Parser;
-import mickey.util.FileSaver;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Random;
+
+import mickey.task.Deadline;
+import mickey.task.Event;
+import mickey.task.Task;
+import mickey.task.TaskList;
+import mickey.task.Todo;
+import mickey.util.FileSaver;
+import mickey.util.Parser;
+import mickey.util.UI;
 
 /**
  * Main class for chatbot Mickey
  * Handles user input and task management
  */
-
 public class Mickey {
     private TaskList tasks;
     private UI ui;
     private int taskCount;
     private FileSaver saver;
     private ArrayList<String> quotes;
-    
+
     /**
      * New mickey instance with empty list, UI and task count
      */
     public Mickey(String filePath) {
-    this.ui = new UI();
-    this.saver = new FileSaver(filePath);   
-    this.tasks = new TaskList(saver.loadTasks());         
-    this.taskCount = tasks.size();
-    this.quotes = saver.loadQuotes();
+        this.ui = new UI();
+        this.saver = new FileSaver(filePath);
+        this.tasks = new TaskList(saver.loadTasks());
+        this.taskCount = tasks.size();
+        this.quotes = saver.loadQuotes();
     }
 
     /**
      * Main method for chatbot
      */
-
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         new Mickey("./data/mickey.txt").run();
     }
 
@@ -53,16 +51,14 @@ public class Mickey {
     /**
      * To run the chatbot
      */
-
-
     public void run() {
         ui.welcomeLogo();
         String userInput = ui.userInput();
-        
+
         while (!userInput.equals("bye")) {
             String command = Parser.getCommand(userInput);
             ui.nextLine();
-            
+
             if (userInput.equals("list") || userInput.equals("to-do")) {
                 handleListCommand();
             } else if (command.equals("mark")) {
@@ -81,23 +77,20 @@ public class Mickey {
                 handleDueCommand(userInput);
             } else if (command.equals("cheer")) {
                 handleCheerCommand();
-            }
-            else if (command.equals("find")) {
+            } else if (command.equals("find")) {
                 handleFindCommand(userInput);
-            }
-
-            else {
+            } else {
                 handleEchoCommand(userInput);
             }
-            
+
             ui.nextLine();
             userInput = ui.userInput();
         }
-        
+
         ui.sayBye();
         ui.close();
     }
-    
+
     /**
      * Shows all tasks in the list
      */
@@ -116,10 +109,9 @@ public class Mickey {
 
     /**
      * Handles the find command
-     * @param userInput the user input containing the keyword to search 
-     * @return the matching tasks
+     *
+     * @param userInput the user input containing the keyword to search
      */
-
     private void handleFindCommand(String userInput) {
         if (userInput.length() <= 4) {
             System.out.println("Please enter the keyword to search by");
@@ -138,21 +130,21 @@ public class Mickey {
 
     /**
      * Deletes a task from task list
+     *
      * @param userInput the user input containing the task number to be deleted
      */
-    
     private void handleDeleteCommand(String userInput) {
         try {
             int taskNumber = Parser.getDeletedTask(userInput);
             int taskIndex = taskNumber - 1;
-            
+
             if (taskIndex < 0 || taskIndex >= taskCount) {
                 ui.showInvalidTaskNumber();
             } else {
-                Task selectedTask = tasks.deleteTask(taskIndex);
+                Task deletedTask = tasks.deleteTask(taskIndex);
                 taskCount--;
                 saveTask();
-                ui.showDeleted(selectedTask.toString(), taskCount);
+                ui.showDeleted(deletedTask.toString(), taskCount);
             }
         } catch (NumberFormatException e) {
             ui.showNumberFormatError();
@@ -161,12 +153,10 @@ public class Mickey {
 
     /**
      * Handles the cheer command
-     * @return the random quote
      */
-
     private void handleCheerCommand() {
         if (quotes.isEmpty()) {
-            System.out.println("Keep goingggggg!");
+            System.out.println(" Keep coding! You're doing great!");
             return;
         }
         Random random = new Random();
@@ -177,14 +167,14 @@ public class Mickey {
 
     /**
      * Marks a task as done
+     *
      * @param userInput containing the task number to be marked as done
      */
-    
     private void handleMarkCommand(String userInput) {
         try {
             int taskNumber = Parser.getCompletedTask(userInput);
             int taskIndex = taskNumber - 1;
-            
+
             if (taskIndex < 0 || taskIndex >= taskCount) {
                 ui.showInvalidTaskNumber();
             } else {
@@ -198,16 +188,17 @@ public class Mickey {
             ui.showNumberFormatError();
         }
     }
+
     /**
      * Marks a task as incomplete
+     *
      * @param userInput contains the task number to be marked as incomplete
      */
-    
     private void handleUnmarkCommand(String userInput) {
         try {
             int taskNumber = Parser.getCompletedTask(userInput);
             int taskIndex = taskNumber - 1;
-            
+
             if (taskIndex < 0 || taskIndex >= taskCount) {
                 ui.showInvalidTaskNumber();
             } else {
@@ -224,6 +215,7 @@ public class Mickey {
 
     /**
      * Adds a todo task to the task list
+     *
      * @param userInput contains the description of the task
      */
     private void handleTodoCommand(String userInput) {
@@ -238,12 +230,14 @@ public class Mickey {
             ui.showTaskAdded(newTodo.toString(), taskCount);
         }
     }
+
     /**
-     * Commans to show tasks due on a specific date
+     * Commands to show tasks due on a specific date
+     *
      * @param userInput contains the date to show tasks due
      */
     private void handleDueCommand(String userInput) {
-        try{
+        try {
             LocalDate date = Parser.getDateInFormat(userInput);
             ArrayList<Task> dueTasks = new ArrayList<>();
             for (Task task : tasks.getAllTasks()) {
@@ -254,17 +248,16 @@ public class Mickey {
             ui.showDueTasks(dueTasks, date);
         } catch (DateTimeParseException e) {
             ui.showInvalidDate();
-        } 
+        }
     }
 
     /**
      * Checks if a task is due on a specific date
+     *
      * @param task the task
      * @param date the date to check
      * @return true if the task is due on the date and false if not due
-     *
      */
-
     private boolean taskIsSameDate(Task task, LocalDate date) {
         if (task instanceof Deadline) {
             Deadline deadline = (Deadline) task;
@@ -277,15 +270,14 @@ public class Mickey {
         return false;
     }
 
-
     /**
      * Adds a deadline task
+     *
      * @param userInput contains the description and deadline date of the task
      */
-    
     private void handleDeadlineCommand(String userInput) {
         int byIndex = Parser.getByIndex(userInput);
-        
+
         if (userInput.length() <= 8) {
             ui.showDeadlineEmptyError();
         } else if (byIndex == -1) {
@@ -307,15 +299,16 @@ public class Mickey {
             }
         }
     }
-    
+
     /**
      * Adds an event task
+     *
      * @param userInput contains the description and event date range of the task
      */
     private void handleEventCommand(String userInput) {
         int fromIndex = Parser.getFromIndex(userInput);
         int toIndex = Parser.getToIndex(userInput);
-        
+
         if (userInput.length() <= 5) {
             ui.showEventEmptyError();
         } else if (fromIndex == -1 || toIndex == -1) {
@@ -336,11 +329,12 @@ public class Mickey {
             }
         }
     }
+
     /**
      * Adds as a Todo task default
+     *
      * @param userInput contains the description of task
      */
-    
     private void handleEchoCommand(String userInput) {
         Todo echoTask = new Todo(userInput);
         tasks.addTask(echoTask);
@@ -348,6 +342,4 @@ public class Mickey {
         saveTask();
         ui.showTaskAdded(echoTask.toString(), taskCount);
     }
-    
-    
 }

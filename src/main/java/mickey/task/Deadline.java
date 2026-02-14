@@ -1,4 +1,5 @@
 package mickey.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -6,10 +7,13 @@ import java.time.format.DateTimeFormatter;
  * Deadline class for deadline tasks
  * Extends from Task class
  */
-
 public class Deadline extends Task {
     private LocalDate dateBy;
-    public Deadline (String description, LocalDate dateBy) {
+
+    /**
+     * Constructor for Deadline
+     */
+    public Deadline(String description, LocalDate dateBy) {
         super(description);
         this.dateBy = dateBy;
         this.type = TaskTypes.DEADLINE;
