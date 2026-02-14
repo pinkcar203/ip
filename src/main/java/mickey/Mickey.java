@@ -16,8 +16,8 @@ import mickey.util.Parser;
 import mickey.util.UI;
 
 /**
- * Main class for chatbot Mickey
- * Handles user input and task management
+ * Main Mickey chatbot class
+ * Takes care of managing tasks and responding to user commands
  */
 public class Mickey {
     private TaskList tasks;
@@ -25,9 +25,10 @@ public class Mickey {
     private int taskCount;
     private FileSaver saver;
     private ArrayList<String> quotes;
+    private String lastCommandType; // tracks what kind of command was just run
 
     /**
-     * New mickey instance with empty list, UI and task count
+     * Constructor - sets up Mickey with saved tasks from file
      */
     public Mickey(String filePath) {
         this.ui = new UI();
@@ -35,6 +36,16 @@ public class Mickey {
         this.tasks = new TaskList(saver.loadTasks());
         this.taskCount = tasks.size();
         this.quotes = saver.loadQuotes();
+        this.lastCommandType = null;
+    }
+
+    /**
+     * Gets the last command type executed
+     *
+     * @return command type like "todo", "mark", "delete"
+     */
+    public String getLastCommandType() {
+        return lastCommandType;
     }
 
     /**
@@ -44,6 +55,7 @@ public class Mickey {
         new Mickey("./data/mickey.txt").run();
     }
 
+    // helper method to save tasks to file
     private void saveTask() {
         saver.saveTasks(tasks.getAllTasks());
     }
@@ -108,7 +120,7 @@ public class Mickey {
     }
 
     /**
-     * Handles the find command
+     * Searches for tasks matching a keyword
      *
      * @param userInput the user input containing the keyword to search
      */
@@ -120,6 +132,7 @@ public class Mickey {
         String keyword = Parser.getKeywordToSearch(userInput);
         ArrayList<Task> matchResults = new ArrayList<>();
 
+        // loop through all tasks and check if keyword matches
         for (Task task : tasks.getAllTasks()) {
             if (task.getDescription().contains(keyword)) {
                 matchResults.add(task);
@@ -129,7 +142,7 @@ public class Mickey {
     }
 
     /**
-     * Deletes a task from task list
+     * Removes a task from the list
      *
      * @param userInput the user input containing the task number to be deleted
      */
@@ -232,7 +245,7 @@ public class Mickey {
     }
 
     /**
-     * Commands to show tasks due on a specific date
+     * Shows all tasks due on a particular date
      *
      * @param userInput contains the date to show tasks due
      */
@@ -297,6 +310,259 @@ public class Mickey {
             } catch (DateTimeParseException e) {
                 ui.showInvalidDate();
             }
+        }
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     *
+     * @param input user input string
+     * @return response message
+     */
+    public String getResponse(String input) {
+        if (input.equals("bye")) {
+            lastCommandType = null;
+            return "Aww bye bye! Catch you later!";
+        }
+
+        String command = Parser.getCommand(input);
+        try {
+            if (input.equals("list") || input.equals("to-do")) {
+                lastCommandType = "list";
+                return getListResponse();
+            } else if (command.equals("mark")) {
+                lastCommandType = "mark";
+                return getMarkResponse(input);
+            } else if (command.equals("unmark")) {
+                lastCommandType = "unmark";
+                return getUnmarkResponse(input);
+            } else if (command.equals("todo")) {
+                lastCommandType = "todo";
+                return getTodoResponse(input);
+            } else if (command.equals("deadline")) {
+                lastCommandType = "deadline";
+                return getDeadlineResponse(input);
+            } else if (command.equals("event")) {
+                lastCommandType = "event";
+                return getEventResponse(input);
+            } else if (command.equals("delete")) {
+                lastCommandType = "delete";
+                return getDeleteResponse(input);
+            } else if (command.equals("due")) {
+                lastCommandType = "due";
+                return getDueResponse(input);
+            } else if (command.equals("cheer")) {
+                lastCommandType = "cheer";
+                return getCheerResponse();
+            } else if (command.equals("find")) {
+                lastCommandType = "find";
+                return getFindResponse(input);
+            } else {
+                lastCommandType = "todo";
+                return getEchoResponse(input);
+            }
+        } catch (Exception e) {
+            lastCommandType = null;
+            return "Oops! Something went wrong: " + e.getMessage();
+        }
+    }
+
+    private String getEchoResponse(String input) {
+        Todo echoTask = new Todo(input);
+        tasks.addTask(echoTask);
+        taskCount++;
+        saveTask();
+        return "Got it! Added:\n  " + echoTask.toString()
+                + "\n\nYou now have " + taskCount + " task" + (taskCount == 1 ? "" : "s") + " total.";
+    }
+
+    private String getListResponse() {
+        if (taskCount == 0) {
+            return "Your list is empty! Time to add some tasks maybe?";
+        }
+        StringBuilder response = new StringBuilder("Alright, here's what you've got:\n");
+        for (int i = 0; i < taskCount; i++) {
+            Task currentTask = tasks.getTask(i);
+            int displayIndex = i + 1;
+            response.append(displayIndex).append(". ").append(currentTask.toString()).append("\n");
+        }
+        return response.toString().trim();
+    }
+
+    private String getFindResponse(String input) {
+        if (input.length() <= 4) {
+            return "Umm, you need to give me a keyword to search for!";
+        }
+        String keyword = Parser.getKeywordToSearch(input);
+        ArrayList<Task> matchResults = new ArrayList<>();
+
+        for (Task task : tasks.getAllTasks()) {
+            if (task.getDescription().contains(keyword)) {
+                matchResults.add(task);
+            }
+        }
+
+        if (matchResults.isEmpty()) {
+            return "Hmm, couldn't find anything matching '" + keyword + "'";
+        }
+
+        StringBuilder response = new StringBuilder("Found these for you:\n");
+        for (int i = 0; i < matchResults.size(); i++) {
+            response.append((i + 1)).append(". ").append(matchResults.get(i).toString()).append("\n");
+        }
+        return response.toString().trim();
+    }
+
+    private String getDeleteResponse(String input) {
+        try {
+            int taskNumber = Parser.getDeletedTask(input);
+            int taskIndex = taskNumber - 1;
+
+            if (taskIndex < 0 || taskIndex >= taskCount) {
+                return "Oops! That task number doesn't exist!";
+            }
+
+            Task deletedTask = tasks.deleteTask(taskIndex);
+            taskCount--;
+            saveTask();
+            return "Alrighty, deleted this one:\n  " + deletedTask.toString()
+                    + "\nYou've got " + taskCount + " task" + (taskCount == 1 ? "" : "s") + " left!";
+        } catch (NumberFormatException e) {
+            return "Hey, I need a valid task number!";
+        }
+    }
+
+    private String getCheerResponse() {
+        if (quotes.isEmpty()) {
+            return "You're doing amazing! Keep crushing it!";
+        }
+        Random random = new Random();
+        int randomIndex = random.nextInt(quotes.size());
+        return quotes.get(randomIndex);
+    }
+
+    private String getMarkResponse(String input) {
+        try {
+            int taskNumber = Parser.getCompletedTask(input);
+            int taskIndex = taskNumber - 1;
+
+            if (taskIndex < 0 || taskIndex >= taskCount) {
+                return "Hmm, that task number doesn't exist!";
+            }
+
+            tasks.markTask(taskIndex);
+            Task selectedTask = tasks.getTask(taskIndex);
+            saveTask();
+            return "Yay! Marked this as done:\n  " + selectedTask.toString() + "\n\nNice work!";
+        } catch (NumberFormatException e) {
+            return "Hey, gimme a valid task number!";
+        }
+    }
+
+    private String getUnmarkResponse(String input) {
+        try {
+            int taskNumber = Parser.getCompletedTask(input);
+            int taskIndex = taskNumber - 1;
+
+            if (taskIndex < 0 || taskIndex >= taskCount) {
+                return "Hmm, that task number doesn't exist!";
+            }
+
+            tasks.unmarkTask(taskIndex);
+            Task selectedTask = tasks.getTask(taskIndex);
+            saveTask();
+            return "Okay okay, unmarked this one:\n  " + selectedTask.toString() + "\n\nBack to the to-do pile!";
+        } catch (NumberFormatException e) {
+            return "I need a valid task number!";
+        }
+    }
+
+    private String getTodoResponse(String input) {
+        if (input.length() <= 4) {
+            return "Wait, you can't add an empty todo! Give me something to work with!";
+        }
+        String description = Parser.getTodoDescription(input);
+        Todo newTodo = new Todo(description);
+        tasks.addTask(newTodo);
+        taskCount++;
+        saveTask();
+        return "Got it! Added:\n  " + newTodo.toString()
+                + "\n\nYou now have " + taskCount + " task" + (taskCount == 1 ? "" : "s") + " total.";
+    }
+
+    private String getDueResponse(String input) {
+        try {
+            LocalDate date = Parser.getDateInFormat(input);
+            ArrayList<Task> dueTasks = new ArrayList<>();
+            for (Task task : tasks.getAllTasks()) {
+                if (taskIsSameDate(task, date)) {
+                    dueTasks.add(task);
+                }
+            }
+
+            if (dueTasks.isEmpty()) {
+                return "Nothing due on " + date + "! You're free that day!";
+            }
+
+            StringBuilder response = new StringBuilder("Here's what's due on " + date + ":\n");
+            for (int i = 0; i < dueTasks.size(); i++) {
+                response.append((i + 1)).append(". ").append(dueTasks.get(i).toString()).append("\n");
+            }
+            return response.toString().trim();
+        } catch (DateTimeParseException e) {
+            return "Oops! Use this date format: YYYY-MM-DD";
+        }
+    }
+
+    private String getDeadlineResponse(String input) {
+        int byIndex = Parser.getByIndex(input);
+
+        if (input.length() <= 8) {
+            return "Hey, your deadline needs a description!";
+        } else if (byIndex == -1) {
+            return "You forgot the /by date! Try: deadline <task> /by <date>";
+        } else if (byIndex <= 10) {
+            return "Umm, the description can't be empty!";
+        }
+
+        try {
+            Object[] deadlineDetails = Parser.getDeadline(input);
+            String description = (String) deadlineDetails[0];
+            LocalDate dateBy = (LocalDate) deadlineDetails[1];
+            Deadline newDeadline = new Deadline(description, dateBy);
+            tasks.addTask(newDeadline);
+            taskCount++;
+            saveTask();
+            return "Deadline added!\n  " + newDeadline.toString()
+                    + "\n\nYou've got " + taskCount + " task" + (taskCount == 1 ? "" : "s") + " now.";
+        } catch (DateTimeParseException e) {
+            return "Hmm, that date format looks wrong! Use YYYY-MM-DD";
+        }
+    }
+
+    private String getEventResponse(String input) {
+        int fromIndex = Parser.getFromIndex(input);
+        int toIndex = Parser.getToIndex(input);
+
+        if (input.length() <= 5) {
+            return "Hey, your event needs a description!";
+        } else if (fromIndex == -1 || toIndex == -1) {
+            return "You're missing /from or /to! Try: event <task> /from <date-time> /to <date-time>";
+        }
+
+        try {
+            Object[] eventDetails = Parser.getEvent(input);
+            String description = (String) eventDetails[0];
+            LocalDateTime dateFrom = (LocalDateTime) eventDetails[1];
+            LocalDateTime dateTo = (LocalDateTime) eventDetails[2];
+            Event newEvent = new Event(description, dateFrom, dateTo);
+            tasks.addTask(newEvent);
+            taskCount++;
+            saveTask();
+            return "Event scheduled! \n  " + newEvent.toString()
+                    + "\n\nThat's " + taskCount + " task" + (taskCount == 1 ? "" : "s") + " on your plate!";
+        } catch (DateTimeParseException e) {
+            return "Oops! Wrong date-time format! Use YYYY-MM-DD HH:MM";
         }
     }
 

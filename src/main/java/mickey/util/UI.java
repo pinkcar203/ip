@@ -248,7 +248,7 @@ public class UI {
     }
 
     /**
-     * Closes the scanner
+     * Close the scanner
      */
     public void close() {
         entry.close();

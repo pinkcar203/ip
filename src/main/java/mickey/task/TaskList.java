@@ -18,7 +18,7 @@ public class TaskList {
     /**
      * Creates list with existing tasks
      *
-     * @param tasks the list of tasks to initialize with
+     * @param tasks the list of tasks to initialise with
      */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks;
@@ -36,7 +36,7 @@ public class TaskList {
     /**
      * Deletes task from the list
      *
-     * @param index the index of the task to delete (0-based)
+     * @param index the index of the task to delete
      * @return the deleted task
      */
     public Task deleteTask(int index) {
@@ -46,7 +46,7 @@ public class TaskList {
     /**
      * Gets a task from the list
      *
-     * @param index the index of the task (0-based)
+     * @param index the index of the task
      * @return the task at the specified index
      */
     public Task getTask(int index) {
@@ -56,7 +56,7 @@ public class TaskList {
     /**
      * Marks a task as done
      *
-     * @param index the index of the task to mark (0-based)
+     * @param index the index of the task to mark 
      */
     public void markTask(int index) {
         tasks.get(index).markDone();
@@ -65,7 +65,7 @@ public class TaskList {
     /**
      * Marks a task as not done
      *
-     * @param index the index of the task to unmark (0-based)
+     * @param index the index of the task to unmark
      */
     public void unmarkTask(int index) {
         tasks.get(index).markUndone();
@@ -83,7 +83,7 @@ public class TaskList {
     /**
      * Gets all tasks in the list
      *
-     * @return the ArrayList of all tasks
+     * @return all tasks
      */
     public ArrayList<Task> getAllTasks() {
         return tasks;
@@ -92,7 +92,7 @@ public class TaskList {
     /**
      * Checks if the task list is empty
      *
-     * @return true if empty, false otherwise
+     * @return true if empty, false if it is not
      */
     public boolean isEmpty() {
         return tasks.isEmpty();

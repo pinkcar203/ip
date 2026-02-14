@@ -81,7 +81,7 @@ public class Parser {
      */
     public static int getDeletedTask(String chatEntry) {
         String[] parts = chatEntry.trim().split("\\s+");
-        //add same error handling as above
+        // Add same error handling as above
         if (parts.length < 2) {
             throw new NumberFormatException("No task number provided");
         }
@@ -93,7 +93,7 @@ public class Parser {
      * Retreived the index in the input
      *
      * @param chatEntry user input
-     * @return the description of the todo task
+     * @return the description of todo task
      */
     public static String getTodoDescription(String chatEntry) {
         String description = chatEntry.substring(5);
@@ -147,7 +147,7 @@ public class Parser {
      *
      * @param chatEntry user input
      * @return LocalDate object in format needed
-     * @throws DateTimeParseException if date is not in correct format
+     * @throws DateTimeParseException if date is not correct format
      */
     public static LocalDate getDateInFormat(String chatEntry) {
         String dateString = chatEntry.substring(4).trim();
