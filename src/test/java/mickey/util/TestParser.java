@@ -1,9 +1,11 @@
 package mickey.util;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for Parser
@@ -16,10 +18,10 @@ public class TestParser {
         // test basic commands
         String result1 = Parser.getCommand("todo read book");
         assertEquals("todo", result1);
-        
+
         String result2 = Parser.getCommand("deadline return book /by 25-12-2024");
         assertEquals("deadline", result2);
-        
+
         assertEquals("list", Parser.getCommand("list"));
         assertEquals("bye", Parser.getCommand("bye"));
     }
@@ -40,7 +42,7 @@ public class TestParser {
     @Test
     public void testDeadlineParsing() {
         Object[] result = Parser.getDeadline("deadline return book /by 25-12-2024");
-        
+
         // check description
         assertEquals("return book", result[0]);
         // check date
@@ -58,7 +60,7 @@ public class TestParser {
     public void testEventParsing() {
         // test event with from and to dates
         Object[] result = Parser.getEvent("event meeting /from 20-08-2024 1400 /to 20-08-2024 1600");
-        
+
         assertEquals("meeting", result[0]);
         assertEquals(LocalDateTime.of(2024, 8, 20, 14, 0), result[1]);
         assertEquals(LocalDateTime.of(2024, 8, 20, 16, 0), result[2]);
@@ -69,10 +71,10 @@ public class TestParser {
         // test extracting task numbers from commands
         int num1 = Parser.getCompletedTask("mark 1");
         assertEquals(1, num1);
-        
+
         int num2 = Parser.getCompletedTask("unmark 5");
         assertEquals(5, num2);
-        
+
         assertEquals(10, Parser.getCompletedTask("delete 10"));
     }
 
@@ -81,7 +83,7 @@ public class TestParser {
         // should find /by at position 14
         int index = Parser.getByIndex("deadline test /by 25-12-2024");
         assertEquals(14, index);
-        
+
         // should return -1 if /by not found
         assertEquals(-1, Parser.getByIndex("deadline test"));
     }

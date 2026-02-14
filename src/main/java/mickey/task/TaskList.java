@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 /**
  * Class for managing the list of all tasks
- * 
  */
 public class TaskList {
     private ArrayList<Task> tasks;
@@ -18,6 +17,7 @@ public class TaskList {
 
     /**
      * Creates list with existing tasks
+     *
      * @param tasks the list of tasks to initialize with
      */
     public TaskList(ArrayList<Task> tasks) {
@@ -26,6 +26,7 @@ public class TaskList {
 
     /**
      * Adds a task to the list
+     *
      * @param task the task to add
      */
     public void addTask(Task task) {
@@ -34,6 +35,7 @@ public class TaskList {
 
     /**
      * Deletes task from the list
+     *
      * @param index the index of the task to delete (0-based)
      * @return the deleted task
      */
@@ -43,6 +45,7 @@ public class TaskList {
 
     /**
      * Gets a task from the list
+     *
      * @param index the index of the task (0-based)
      * @return the task at the specified index
      */
@@ -52,6 +55,7 @@ public class TaskList {
 
     /**
      * Marks a task as done
+     *
      * @param index the index of the task to mark (0-based)
      */
     public void markTask(int index) {
@@ -60,6 +64,7 @@ public class TaskList {
 
     /**
      * Marks a task as not done
+     *
      * @param index the index of the task to unmark (0-based)
      */
     public void unmarkTask(int index) {
@@ -68,6 +73,7 @@ public class TaskList {
 
     /**
      * Gets the number of tasks in the list
+     *
      * @return the size of the task list
      */
     public int size() {
@@ -76,6 +82,7 @@ public class TaskList {
 
     /**
      * Gets all tasks in the list
+     *
      * @return the ArrayList of all tasks
      */
     public ArrayList<Task> getAllTasks() {
@@ -84,6 +91,7 @@ public class TaskList {
 
     /**
      * Checks if the task list is empty
+     *
      * @return true if empty, false otherwise
      */
     public boolean isEmpty() {

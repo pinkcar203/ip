@@ -1,24 +1,22 @@
 package mickey.util;
 
-import mickey.task.Todo;
-import mickey.task.Deadline;
-import mickey.task.Event;
-import java.time.LocalDateTime;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 /**
  * Class for parsing user input and extracting information needed
  */
 public class Parser {
     private static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    
+
     /**
      * Extracts the first word of input as the command
+     *
      * @param chatEntry the user input
      * @return the command
      */
-    
     public static String getCommand(String chatEntry) {
         String[] firstWord = chatEntry.trim().split("\\s+");
         return firstWord[0];
@@ -27,21 +25,21 @@ public class Parser {
 
     /**
      * Retreived the index in the input
+     *
      * @param chatEntry the user input
      * @return the index of /by in the input
      */
-    
     public static int getByIndex(String chatEntry) {
         int byIndex = chatEntry.indexOf("/by");
         return byIndex;
     }
-    
+
     /**
      * Retreived the index in the input
+     *
      * @param chatEntry the user input
      * @return the index /from in the input
      */
-    
     public static int getFromIndex(String chatEntry) {
         int fromIndex = chatEntry.indexOf("/from");
         return fromIndex;
@@ -49,10 +47,10 @@ public class Parser {
 
     /**
      * Retreived the index in the input
+     *
      * @param chatEntry the user input
      * @return the index of /to in the input
      */
-    
     public static int getToIndex(String chatEntry) {
         int toIndex = chatEntry.indexOf("/to");
         return toIndex;
@@ -60,6 +58,7 @@ public class Parser {
 
     /**
      * Extracts the task number from the input
+     *
      * @param chatEntry the user input
      * @return the task number
      */
@@ -76,10 +75,11 @@ public class Parser {
 
     /**
      * Retreived the index in the input
+     *
      * @param chatEntry user input
      * @return the task number
      */
-    public static int getDeletedTask(String chatEntry){
+    public static int getDeletedTask(String chatEntry) {
         String[] parts = chatEntry.trim().split("\\s+");
         //add same error handling as above
         if (parts.length < 2) {
@@ -91,10 +91,10 @@ public class Parser {
 
     /**
      * Retreived the index in the input
+     *
      * @param chatEntry user input
      * @return the description of the todo task
      */
-   
     public static String getTodoDescription(String chatEntry) {
         String description = chatEntry.substring(5);
         return description;
@@ -102,21 +102,20 @@ public class Parser {
 
     /**
      * Retreived the keyword
+     *
      * @param chatEntry user input
-     * @return the keyword 
+     * @return the keyword
      */
-
-
-    public static String getKeywordToSearch (String chatEntry) {
+    public static String getKeywordToSearch(String chatEntry) {
         return chatEntry.substring(5).trim();
     }
-    
+
     /**
      * Extracts the description and deadline date from input
+     *
      * @param chatEntry user input
      * @return the description and deadline date
-     */  
-    
+     */
     public static Object[] getDeadline(String chatEntry) {
         int byIndex = chatEntry.indexOf("/by");
         String description = chatEntry.substring(9, byIndex).trim();
@@ -124,15 +123,15 @@ public class Parser {
         LocalDate date = LocalDate.parse(dateBy, DATE_FORMAT);
         return new Object[]{description, date};
     }
-    
+
     /**
      * Extracts the description and event date range from the input
+     *
      * @param chatEntry user input
      * @return the description and  date range
      */
-    
     public static Object[] getEvent(String chatEntry) {
-        int fromIndex = chatEntry.indexOf("/from"); 
+        int fromIndex = chatEntry.indexOf("/from");
         int toIndex = chatEntry.indexOf("/to");
         String description = chatEntry.substring(6, fromIndex).trim();
         String fromDate = chatEntry.substring(fromIndex + 6, toIndex).trim();
@@ -145,6 +144,7 @@ public class Parser {
 
     /**
      * Extract date from command
+     *
      * @param chatEntry user input
      * @return LocalDate object in format needed
      * @throws DateTimeParseException if date is not in correct format
@@ -153,6 +153,4 @@ public class Parser {
         String dateString = chatEntry.substring(4).trim();
         return LocalDate.parse(dateString, DATE_FORMAT);
     }
-
-    
 }
