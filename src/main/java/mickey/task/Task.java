@@ -78,7 +78,7 @@ public abstract class Task {
     /**
      * Checks if task is complete
      *
-     * @return true if task is complete, false otherwise
+     * @return true if task is complete, false if not
      */
     public boolean isComplete() {
         return isComplete;

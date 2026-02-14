@@ -22,7 +22,7 @@ public class Event extends Task {
     }
 
     /**
-     * Returs event in string format
+     * Returns event in string format
      */
     @Override
     public String toString() {
