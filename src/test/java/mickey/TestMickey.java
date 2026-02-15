@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for Mickey class
+ * Test for Mickey class
  */
 public class TestMickey {
     private Mickey mickey;
@@ -28,8 +28,8 @@ public class TestMickey {
     }
 
     @Test
-    public void testResponseWithTodoCommand() {
-        // Test: adding a todo task should return success message
+    public void testTodoCommand() {
+        // Test adding a todo task
         String response = mickey.getResponse("todo buy groceries");
         
         assertTrue(response.contains("Got it!") || response.contains("Added"));
@@ -38,8 +38,8 @@ public class TestMickey {
     }
 
     @Test
-    public void testResponseWithInvalidMarkCommand() {
-        // Test negative: mark non existent
+    public void testInvalidMarkCommand() {
+        // Test negative by marking non existent
         mickey.getResponse("todo only one task");
         String response = mickey.getResponse("mark 9999");
         
