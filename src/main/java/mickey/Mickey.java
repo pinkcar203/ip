@@ -40,6 +40,7 @@ public class Mickey {
         this.taskCount = tasks.size();
         this.quotes = saver.loadQuotes();
         this.lastCommandType = null;
+        assert taskCount >= 0 : "Task count should not be negative";
     }
 
     /**
@@ -442,13 +443,10 @@ public class Mickey {
 
     private String getMarkResponse(String input) {
         try {
-            int taskNumber = Parser.getCompletedTask(input);
-            int taskIndex = taskNumber - 1;
-
-            if (taskIndex < 0 || taskIndex >= taskCount) {
+            int taskIndex = getTaskIndex(input);
+            if (taskIndex < 0) {
                 return "Hmm, that task number doesn't exist!";
             }
-
             tasks.markTask(taskIndex);
             Task selectedTask = tasks.getTask(taskIndex);
             saveTask();
@@ -460,13 +458,10 @@ public class Mickey {
 
     private String getUnmarkResponse(String input) {
         try {
-            int taskNumber = Parser.getCompletedTask(input);
-            int taskIndex = taskNumber - 1;
-
-            if (taskIndex < 0 || taskIndex >= taskCount) {
+            int taskIndex = getTaskIndex(input);
+            if (taskIndex < 0) {
                 return "Hmm, that task number doesn't exist!";
             }
-
             tasks.unmarkTask(taskIndex);
             Task selectedTask = tasks.getTask(taskIndex);
             saveTask();
@@ -474,6 +469,22 @@ public class Mickey {
         } catch (NumberFormatException e) {
             return "I need a valid task number!";
         }
+    }
+
+    /**
+     * Get the task index for mark/unmark commands.
+     * 
+     * @return the task index
+     * @throws NumberFormatException if input is invalid
+     * @param input the user input
+     */
+    private int getTaskIndex(String input) throws NumberFormatException {
+        int taskNumber = Parser.getCompletedTask(input);
+        int taskIndex = taskNumber - 1;
+        if (taskIndex < 0 || taskIndex >= taskCount) {
+            return -1;
+        }
+        return taskIndex;
     }
 
     private String getTodoResponse(String input) {

@@ -18,6 +18,8 @@ public class Parser {
      * @return the command
      */
     public static String getCommand(String chatEntry) {
+        assert chatEntry != null : "Input should not be null";
+        assert !chatEntry.trim().isEmpty() : "Input does not contain a command";
         String[] firstWord = chatEntry.trim().split("\\s+");
         return firstWord[0];
 
@@ -69,6 +71,7 @@ public class Parser {
             throw new NumberFormatException("No task number provided");
         }
         int completedTask = Integer.parseInt(parts[1]);
+        assert completedTask > 0 : "Task number should be positive";
         return completedTask;
     }
 
