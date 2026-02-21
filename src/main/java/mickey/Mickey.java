@@ -95,6 +95,8 @@ public class Mickey {
                 handleCheerCommand();
             } else if (command.equals("find")) {
                 handleFindCommand(userInput);
+            } else if (command.equals("remind")) {
+                handleRemindCommand(userInput);
             } else {
                 handleEchoCommand(userInput);
             }
@@ -143,6 +145,47 @@ public class Mickey {
             }
         }
         ui.showKeywordResults(matchResults);
+    }
+
+    /**
+     * Handles the remind command
+     *
+     * @param userInput the user input containing the command to remind
+     */
+
+    private void handleRemindCommand(String userInput) {
+        LocalDate today = LocalDate.now();
+        LocalDate end = today.plusDays(7);
+        ArrayList<Task> tasksPending = new ArrayList<>();
+        for (Task task : tasks.getAllTasks()) {
+            if (isTaskDue(task, today, end)) {
+                tasksPending.add(task);
+            }
+        }
+        if (tasksPending.isEmpty()) {
+            ui.showNoDue();
+        } else {
+            ui.showDueTasks(tasksPending);
+        }
+    }
+
+
+
+    /**
+     * Check if task date within range
+     */
+
+    private boolean isTaskDue(Task task, LocalDate startDay, LocalDate endDay) {
+        if (task instanceof Deadline) {
+            Deadline deadline = (Deadline) task;
+            LocalDate dateEnd = deadline.getDateBy();
+            return !dateEnd.isBefore(startDay) && !dateEnd.isAfter(endDay);
+        } else if (task instanceof Event) {
+            Event event = (Event) task;
+            LocalDate eventDate = event.getDateFrom().toLocalDate();
+            return !eventDate.isBefore(startDay) && !eventDate.isAfter(endDay);
+        }
+        return false;
     }
 
     /**
@@ -361,6 +404,9 @@ public class Mickey {
             } else if (command.equals("find")) {
                 lastCommandType = "find";
                 return getFindResponse(input);
+            } else if (command.equals("remind")) {
+                lastCommandType = "remind";
+                return getRemindResponse();
             } else {
                 lastCommandType = "todo";
                 return getEchoResponse(input);
@@ -389,6 +435,25 @@ public class Mickey {
             Task currentTask = tasks.getTask(i);
             int displayIndex = i + 1;
             response.append(displayIndex).append(". ").append(currentTask.toString()).append("\n");
+        }
+        return response.toString().trim();
+    }
+
+    private String getRemindResponse() {
+        LocalDate today = LocalDate.now();
+        LocalDate end = today.plusDays(7);
+        ArrayList<Task> tasksPending = new ArrayList<>();
+        for (Task task : tasks.getAllTasks()) {
+            if (isTaskDue(task, today, end)) {
+                tasksPending.add(task);
+            }
+        }
+        if (tasksPending.isEmpty()) {
+            return "Lucky you, no tasks due in the next 7 days!";
+        }
+        StringBuilder response = new StringBuilder("Here are the tasks due in the next 7 days:\n");
+        for (int i = 0; i < tasksPending.size(); i++) {
+            response.append((i + 1)).append(". ").append(tasksPending.get(i).toString()).append("\n");
         }
         return response.toString().trim();
     }
@@ -473,10 +538,10 @@ public class Mickey {
 
     /**
      * Get the task index for mark/unmark commands.
-     * 
+     *
+     * @param input the user input
      * @return the task index
      * @throws NumberFormatException if input is invalid
-     * @param input the user input
      */
     private int getTaskIndex(String input) throws NumberFormatException {
         int taskNumber = Parser.getCompletedTask(input);

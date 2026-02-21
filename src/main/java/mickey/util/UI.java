@@ -102,6 +102,16 @@ public class UI {
     }
 
     /**
+     * Displays reminder tasks
+     */
+    public void showDueTasks(ArrayList<Task> tasksPending) {
+        System.out.println("Here are the tasks due in the next 7 days:");
+        for (int i = 0; i < tasksPending.size(); i++) {
+            System.out.println((i + 1) + "." + tasksPending.get(i).toString());
+        }
+    }
+
+    /**
      * Displays all tasks in the list
      */
     public void allTaskList() {
@@ -192,6 +202,13 @@ public class UI {
      */
     public void showDeadlineEmptyError() {
         System.out.println("Oops please specify the item and deadline");
+    }
+
+    /**
+     * Displays no due tasks error
+     */
+    public void showNoDue() {
+        System.out.println("Lucky you, no tasks due today!");
     }
 
     /**
