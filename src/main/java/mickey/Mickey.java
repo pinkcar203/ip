@@ -37,6 +37,7 @@ public class Mickey {
         this.taskCount = tasks.size();
         this.quotes = saver.loadQuotes();
         this.lastCommandType = null;
+        assert taskCount >= 0 : "Task count should not be negative";
     }
 
     /**
