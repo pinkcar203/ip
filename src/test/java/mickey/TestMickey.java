@@ -13,8 +13,8 @@ import org.junit.jupiter.api.Test;
  * Test for Mickey class
  */
 public class TestMickey {
-    private Mickey mickey;
     private static final String TEST_FILE_PATH = "./src/test/resources/test_mickey.txt";
+    private Mickey mickey;
 
     @BeforeEach
     public void setUp() throws IOException {
@@ -31,7 +31,7 @@ public class TestMickey {
     public void testTodoCommand() {
         // Test adding a todo task
         String response = mickey.getResponse("todo buy groceries");
-        
+
         assertTrue(response.contains("Got it!") || response.contains("Added"));
         assertTrue(response.contains("buy groceries"));
         assertEquals("todo", mickey.getLastCommandType());
@@ -42,7 +42,7 @@ public class TestMickey {
         // Test negative by marking non existent
         mickey.getResponse("todo only one task");
         String response = mickey.getResponse("mark 9999");
-        
+
         assertTrue(response.contains("doesn't exist"));
     }
 }
