@@ -30,7 +30,9 @@ public class TaskList {
      * @param tasks tasks to add
      */
     public void addTask(Task... tasks) {
+        assert tasks != null : "Tasks array cannot be null";
         for (Task task : tasks) {
+            assert task != null : "Task should not be null";
             this.tasks.add(task);
         }
     }
@@ -42,6 +44,7 @@ public class TaskList {
      * @return the deleted task
      */
     public Task deleteTask(int index) {
+`       assert index >= 0 && index < tasks.size() : "Index should be within range of number of tasks";
         return tasks.remove(index);
     }
 
@@ -52,6 +55,7 @@ public class TaskList {
      * @return the task at the specified index
      */
     public Task getTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Index should be within range of number of tasks";
         return tasks.get(index);
     }
 
@@ -61,6 +65,7 @@ public class TaskList {
      * @param index the index of the task to mark
      */
     public void markTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Index should be within range of number of tasks";
         tasks.get(index).markDone();
     }
 
@@ -70,6 +75,7 @@ public class TaskList {
      * @param index the index of the task to unmark
      */
     public void unmarkTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Index should be within range of number of tasks";
         tasks.get(index).markUndone();
     }
 
