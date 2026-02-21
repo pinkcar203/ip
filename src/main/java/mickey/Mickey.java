@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import mickey.task.Deadline;
 import mickey.task.Event;
@@ -394,22 +397,18 @@ public class Mickey {
             return "Umm, you need to give me a keyword to search for!";
         }
         String keyword = Parser.getKeywordToSearch(input);
-        ArrayList<Task> matchResults = new ArrayList<>();
-
-        for (Task task : tasks.getAllTasks()) {
-            if (task.getDescription().contains(keyword)) {
-                matchResults.add(task);
-            }
-        }
+        List<Task> matchResults = tasks.getAllTasks().stream()
+                .filter(task -> task.getDescription().contains(keyword))
+                .collect(Collectors.toList());
 
         if (matchResults.isEmpty()) {
             return "Hmm, couldn't find anything matching '" + keyword + "'";
         }
 
         StringBuilder response = new StringBuilder("Found these for you:\n");
-        for (int i = 0; i < matchResults.size(); i++) {
-            response.append((i + 1)).append(". ").append(matchResults.get(i).toString()).append("\n");
-        }
+        IntStream.range(0, matchResults.size())
+                .forEach(i -> response.append((i + 1)).append(". ")
+                        .append(matchResults.get(i).toString()).append("\n"));
         return response.toString().trim();
     }
 
@@ -493,12 +492,9 @@ public class Mickey {
     private String getDueResponse(String input) {
         try {
             LocalDate date = Parser.getDateInFormat(input);
-            ArrayList<Task> dueTasks = new ArrayList<>();
-            for (Task task : tasks.getAllTasks()) {
-                if (taskIsSameDate(task, date)) {
-                    dueTasks.add(task);
-                }
-            }
+            List<Task> dueTasks = tasks.getAllTasks().stream()
+                    .filter(task -> taskIsSameDate(task, date))
+                    .collect(Collectors.toList());
 
             if (dueTasks.isEmpty()) {
                 return "Nothing due on " + date + "! You're free that day!";
